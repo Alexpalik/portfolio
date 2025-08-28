@@ -9,7 +9,7 @@ export default function Sidebar() {
               <Image src="/logo5.png" alt="logo" width={100} height={100} />
             </Link>
             <Link href="/" className="text-black transform rotate-270 text-2xl">Work</Link>
-            <Link href="/" className="text-black transform rotate-270 text-2xl">About</Link> 
+            <Link href="/" className="text-black transform rotate-270 text-1xl">About</Link> 
             <Link href="/" className="text-black transform rotate-270 text-2xl">Contact</Link>
        </div>
     </div>
