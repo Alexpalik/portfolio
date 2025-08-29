@@ -34,7 +34,7 @@ export default function Home() {
           </div>
           <div className="flex justify-end items-center relative z-10 w-full h-full">
             <div className="w-1/2 h-96"></div>
-            <div className="w-1/2 text-white h-96 text-3xl pr-10 mt-[-400px]">
+            <div className="w-1/2 text-white h-96 text-3xl pr-10 mt-[-600px]">
               <p className="!uppercase text-4xl">
                 &ldquo;Meet Alexandros Palikrousis: Shopify sorcerer by day, 
                 full stack student by night. I transform business ideas 
