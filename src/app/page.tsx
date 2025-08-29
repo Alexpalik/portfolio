@@ -51,18 +51,23 @@ export default function Home() {
 
       {/* Black sections that appear when scrolling */}
       <div className="bg-black text-white">
-        <section className="min-h-screen flex items-center justify-center p-8">
-          <div className="w-1/2">
-            <h2 className="text-6xl font-bold mb-8 uppercase">About</h2>
-            <p className="text-xl leading-relaxed">
-              More about your journey and skills...
+        <section className="min-h-screen flex items-center justify-center p-8 ">
+          <div className="w-1/2 pr-10 pl-10 md:mt-[50px]">
+            <h2 className="text-6xl font-bold mb-16 uppercase tracking-tighter leading-none">Hello I am Alexander</h2>
+            <p className="flex justify-end !uppercase text-4xl">I use my passion and skills</p>
+            <p className="!uppercase text-4xl leading-relaxed font-medium">
+            to create digital products and
+            experiences. National and international
+            customers rely on me for design,
+            implementation, and management of their
+            digital products.
             </p>
           </div>
           <div className="max-w-4xl mx-auto text-center">
-            <div className="absolute right-0  transform mt-[-200px] mr-[-100px]">
+            <div className="absolute right-0  transform mt-[-100px] mr-[-100px]">
               <ThreeModel />
             </div>
-            <Image src="/img2.png" alt="About" width={600} height={600}  className="absolute right-0 transform mt-[200px] mr-[250px]"/>
+            <Image src="/img2.png" alt="About" width={600} height={600}  className="absolute right-0 transform mt-[300px] mr-[250px]"/>
             
           </div>
         </section>
