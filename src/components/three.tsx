@@ -4,7 +4,7 @@ import * as THREE from 'three'
 
 export default function ThreeModel() {
   const mountRef = useRef<HTMLDivElement>(null)
-  const frameId = useRef<number>()
+  const frameId = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     if (!mountRef.current) return
