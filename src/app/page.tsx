@@ -21,19 +21,19 @@ export default function Home() {
           style={{
             backgroundImage: "url('/herobg-hd@2x.webp')",
             transform: `translateY(${scrollY * 0.4}px)`,
-            scale: '1.1' // Prevents gaps during scroll
+            overflow: 'hidden'
           }}
         />
         
         {/* Your existing content - unchanged */}
         <div className="w-full h-full flex flex-col justify-between relative z-10">
-          <div className="relative z-10 text-center  mt-[-800px] md:mt-[-800px]">
+          <div className="relative z-10 text-center  mt-[-700px] md:mt-[-800px]">
             <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none text-white">
               FULL STACK DEVELOPER
             </h1>
           </div>
           <div className="flex justify-end items-center relative z-10 w-full h-full">
-            <div className="hidden md:block w-1/2 h-96"></div>
+            <div className="hidden md:block md:w-1/2 h-96"></div>
             <div className="md:w-1/2 text-white  md:h-96  text-xl md:text-3xl p-10  md:p-0 md:pr-30 mt-[-600px]">
               <p className="!uppercase text-xl md:text-4xl">
                 &ldquo;Meet Alexandros Palikrousis: Shopify sorcerer by day, 
@@ -52,7 +52,7 @@ export default function Home() {
       </div>
 
       {/* Black sections that appear when scrolling */}
-      <div className="bg-black text-white">
+      <div className="bg-black text-white !overflow-x-hidden">
         <section className="min-h-screen flex items-center justify-center p-8 ">
           <div className="md:w-1/2 pr-10 pl-10 md:mt-[50px]">
             <h2 className="text-6xl font-bold mb-16 uppercase tracking-tighter leading-none">Hello I am Alexander</h2>
@@ -65,9 +65,9 @@ export default function Home() {
             digital products.
             </p>
           </div>
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="absolute right-0  transform  mt-[200px] md:mt-[-100px] mr-[-100px] md:mr-[-100px]">
-              <ThreeModel />
+          <div className="max-w-4xl mx-auto text-center !overflow-x-hidden">
+            <div className="absolute right-0  transform  mt-[200px] md:mt-[-100px] ml-[300px] md:mr-[-100px] !overflow-x-hidden">
+             <ThreeModel />
             </div>
             <Image src="/img2.png" alt="About" width={600} height={600}  className="absolute right-0 transform mt-[600px] md:mt-[300px]  md:mr-[250px]"/>
             

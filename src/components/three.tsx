@@ -18,7 +18,10 @@ export default function ThreeModel() {
       precision: "highp"
     })
     
-    renderer.setSize(600, 600)
+    // Instead of fixed 600x600, make it responsive
+    const isMobile = window.innerWidth < 768
+    const size = isMobile ? 500 : 600
+    renderer.setSize(size, size)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     mountRef.current.appendChild(renderer.domElement)
 
@@ -116,11 +119,11 @@ export default function ThreeModel() {
   }, [])
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center !overflow-x-hidden">
       <div 
         ref={mountRef} 
-        className="overflow-hidden"
-        style={{ width: 600, height: 600 }}
+        className="!overflow-hidden"
+        style={{width: '100%', height: '100%'}}
       />
     </div>
   )

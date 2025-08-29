@@ -31,10 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={neueMontrealFont.variable}>
-      <body className={`${neueMontrealFont.className} antialiased`} style={{backgroundColor: 'rgb(236, 231, 225)'}}>
+      <body className={`${neueMontrealFont.className} antialiased overflow-x-hidden`} style={{backgroundColor: 'rgb(236, 231, 225)'}}>
         <Sidebar />
-        <main className="lg:ml-24 lg:pt-0 w-full overflow-x-hidden">
-            {children}
+        <main className="md:ml-24 lg:pt-0 min-h-screen w-full !overflow-x-hidden">
+          {children}
         </main>
       </body>
     </html>
