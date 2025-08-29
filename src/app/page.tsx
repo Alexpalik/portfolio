@@ -35,15 +35,17 @@ export default function Home() {
           <div className="flex justify-end items-center relative z-10 w-full h-full">
             <div className="w-1/2 h-96"></div>
             <div className="w-1/2 text-white h-96 text-3xl pr-10 mt-[-400px]">
-              <p className="!uppercase text-4xl">"Meet Alexandros Palikrousis: Shopify sorcerer by day, 
+              <p className="!uppercase text-4xl">
+                &ldquo;Meet Alexandros Palikrousis: Shopify sorcerer by day, 
                 full stack student by night. I transform business ideas 
                 into functioning websites (and occasionally functioning 
                 websites into mysterious error messages). My superpowers 
                 include turning coffee into code, making divs do what 
-                they're told, and maintaining a healthy relationship 
+                they&rsquo;re told, and maintaining a healthy relationship 
                 with Git merge conflicts. Currently learning that 
-                "full stack" means being confused in multiple languages 
-                simultaneously"</p>
+                &ldquo;full stack&rdquo; means being confused in multiple languages 
+                simultaneously&rdquo;
+              </p>
             </div>
           </div>
         </div>
