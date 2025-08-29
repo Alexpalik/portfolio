@@ -37,3 +37,14 @@ body {
   color: var(--foreground);
   font-family: 'Neue Montreal', sans-serif;
 }
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}

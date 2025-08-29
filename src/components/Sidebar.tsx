@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Sidebar() {
   return (
-    <div className="left-0 top-0 h-screen w-24 flex flex-col fixed">
+    <div className="left-0 top-0 h-screen w-24 flex flex-col fixed hidden md:flex">
         <div className="flex flex-1 flex-col items-center justify-between py-50 pt-10">
             <Link href="/" className="px-2">
               <Image src="/logo5.png" alt="logo" width={100} height={100} />
