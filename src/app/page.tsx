@@ -28,7 +28,7 @@ export default function Home() {
         {/* Your existing content - unchanged */}
         <div className="w-full h-full flex flex-col justify-between relative z-10">
           <div className="relative z-10 text-center mt-[-800px]">
-            <h1 className="text-8xl md:text-9xl font-black uppercase tracking-tighter leading-none text-white">
+            <h1 className="text-8xl md:text-8xl font-black uppercase tracking-tighter leading-none text-white">
               FULL STACK DEVELOPER
             </h1>
           </div>
