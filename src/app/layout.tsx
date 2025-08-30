@@ -35,7 +35,7 @@ export default function RootLayout({
       <body className={`${neueMontrealFont.className} antialiased overflow-x-hidden`} style={{backgroundColor: 'rgb(236, 231, 225)'}}>
         <SmoothScrolling />
         <Sidebar />
-        <main className="lg:ml-24 pt-16 lg:pt-0 min-h-screen w-full overflow-x-hidden">
+        <main className="lg:ml-24 lg:pt-0 min-h-screen w-full overflow-x-hidden">
           {children}
         </main>
       </body>
