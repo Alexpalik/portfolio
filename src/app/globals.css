@@ -38,12 +38,35 @@ body {
   font-family: 'Neue Montreal', sans-serif;
 }
 
-html, body {
-  overflow-x: hidden !important;
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
   width: 100%;
   margin: 0;
   padding: 0;
 }
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
 
 * {
   box-sizing: border-box;

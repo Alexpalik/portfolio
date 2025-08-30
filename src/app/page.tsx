@@ -1,7 +1,9 @@
 'use client'
+import tailwindConfig from '../../tailwind.config.js'
 import { useEffect, useState } from 'react'
 import ThreeModel from '@/components/three'
 import Image from 'next/image'
+
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
 
@@ -13,8 +15,9 @@ export default function Home() {
 
   return (
     <>
+    
       {/* Your existing hero section with parallax */}
-      <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-end justify-between overflow-hidden">
+      <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex md:items-end md:justify-between overflow-hidden">
         {/* Background with parallax effect */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -26,16 +29,16 @@ export default function Home() {
         />
         
         {/* Your existing content - unchanged */}
-        <div className="w-full h-full flex flex-col justify-between relative z-10">
-          <div className="relative z-10 text-center  mt-[-700px] md:mt-[-800px]">
+        <div className="w-full h-full flex flex-col md:justify-between relative z-10 pt-20">
+          <div className="relative z-10 text-center  md:mt-[-800px]">
             <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none text-white">
               FULL STACK DEVELOPER
             </h1>
           </div>
           <div className="flex justify-end items-center relative z-10 w-full h-full">
             <div className="hidden md:block md:w-1/2 h-96"></div>
-            <div className="md:w-1/2 text-white  md:h-96  text-xl md:text-3xl p-10  md:p-0 md:pr-30 mt-[-600px]">
-              <p className="!uppercase text-xl md:text-4xl">
+            <div className="md:w-1/2 text-white  md:h-96  text-xl md:text-3xl p-10  md:p-0 md:pr-30 md:mt-[-600px]">
+              <p className="!uppercase text-[18px] iphone-plus:text-[24px]  md:text-4xl">
                 &ldquo;Meet Alexandros Palikrousis: Shopify sorcerer by day, 
                 full stack student by night. I transform business ideas 
                 into functioning websites (and occasionally functioning 
@@ -92,6 +95,7 @@ export default function Home() {
           </div>
         </section>
       </div>
+      
     </>
   );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from 'next/font/local'
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
+import SmoothScrolling from "@/components/SmoothScrolling";
 
 const neueMontrealFont = localFont({
   src: [
@@ -32,8 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={neueMontrealFont.variable}>
       <body className={`${neueMontrealFont.className} antialiased overflow-x-hidden`} style={{backgroundColor: 'rgb(236, 231, 225)'}}>
+        <SmoothScrolling />
         <Sidebar />
-        <main className="md:ml-24 lg:pt-0 min-h-screen w-full !overflow-x-hidden">
+        <main className="lg:ml-24 pt-16 lg:pt-0 min-h-screen w-full overflow-x-hidden">
           {children}
         </main>
       </body>
