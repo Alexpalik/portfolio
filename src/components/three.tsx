@@ -18,10 +18,7 @@ export default function ThreeModel() {
       precision: "highp"
     })
     
-    // Instead of fixed 600x600, make it responsive
-    const isMobile = window.innerWidth < 768
-    const size = isMobile ? 500 : 600
-    renderer.setSize(size, size)
+    renderer.setSize(600, 600)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     mountRef.current.appendChild(renderer.domElement)
 
@@ -37,7 +34,8 @@ export default function ThreeModel() {
     fillLight.position.set(-5, 0, 3)
     scene.add(fillLight)
 
-    let alexanderModel: THREE.Object3D | null = null
+    // Create pivot point for proper rotation
+    let pivot: THREE.Group | null = null
 
     const loadModel = async () => {
       try {
@@ -47,9 +45,13 @@ export default function ThreeModel() {
         loader.load(
           '/models/alexander_the_great.glb',
           (gltf) => {
-            alexanderModel = gltf.scene
+            const alexanderModel = gltf.scene
             
-            // Get model bounding box
+            // Create a pivot group for rotation
+            pivot = new THREE.Group()
+            scene.add(pivot)
+            
+            // Get model bounding box for centering and scaling
             const box = new THREE.Box3().setFromObject(alexanderModel)
             const size = box.getSize(new THREE.Vector3())
             const center = box.getCenter(new THREE.Vector3())
@@ -57,24 +59,23 @@ export default function ThreeModel() {
             console.log('Original model center:', center)
             console.log('Original model size:', size)
             
-            // Center the model at origin
-            alexanderModel.position.set(
-              -center.x,  // Center horizontally
-              -center.y,  // Center vertically  
-              -center.z   // Center depth
-            )
+            // Add model to pivot group
+            pivot.add(alexanderModel)
             
-            // Scale it appropriately
+            // Center the model within the pivot
+            alexanderModel.position.set(-center.x, -center.y, -center.z)
+            
+            // Scale the entire pivot (this scales the model)
             const maxDimension = Math.max(size.x, size.y, size.z)
-            const scale = 6 / maxDimension // Adjust this if too big/small
-            alexanderModel.scale.set(scale, scale, scale)
+            const scale = 6 / maxDimension
+            pivot.scale.set(scale, scale, scale)
             
-            // Final positioning - should be centered now
-            // No additional position adjustments needed since we centered it above
+            // Position the pivot at the center of the scene (fixed position)
+            pivot.position.set(0, 0, 0)
             
-            scene.add(alexanderModel)
-            console.log('Alexander centered and scaled')
-            console.log('Final position:', alexanderModel.position)
+            console.log('Alexander centered and scaled in pivot')
+            console.log('Pivot position:', pivot.position)
+            console.log('Model position within pivot:', alexanderModel.position)
             console.log('Scale factor:', scale)
           },
           (progress) => {
@@ -98,8 +99,9 @@ export default function ThreeModel() {
     const animate = () => {
       frameId.current = requestAnimationFrame(animate)
       
-      if (alexanderModel) {
-        alexanderModel.rotation.y += 0.005
+      // Rotate the pivot group instead of the model directly
+      if (pivot) {
+        pivot.rotation.y += 0.005 // Smooth 360-degree rotation
       }
       
       renderer.render(scene, camera)
@@ -108,22 +110,25 @@ export default function ThreeModel() {
     animate()
 
     return () => {
-      if (frameId.current) {
-        cancelAnimationFrame(frameId.current)
+      const currentMount = mountRef.current
+      const currentFrameId = frameId.current
+      
+      if (currentFrameId !== undefined) {
+        cancelAnimationFrame(currentFrameId)
       }
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement)
+      if (currentMount && renderer.domElement) {
+        currentMount.removeChild(renderer.domElement)
       }
       renderer.dispose()
     }
   }, [])
 
   return (
-    <div className="flex items-center justify-center !overflow-x-hidden">
+    <div className="flex items-center justify-center overflow-hidden">
       <div 
         ref={mountRef} 
-        className="!overflow-hidden"
-        style={{width: '100%', height: '100%'}}
+        className="overflow-hidden"
+        style={{ width: 600, height: 600 }}
       />
     </div>
   )
