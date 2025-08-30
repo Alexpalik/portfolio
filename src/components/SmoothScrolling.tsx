@@ -4,19 +4,23 @@ import Lenis from '@studio-freight/lenis'
 
 export default function SmoothScrolling() {
   useEffect(() => {
-    // Initialize Lenis
+    // Check if it's mobile
+    const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    
+    if (isMobile) {
+      // Use native smooth scrolling on mobile
+      document.documentElement.style.scrollBehavior = 'smooth'
+      return
+    }
+
+    // Initialize Lenis only on desktop
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 2,
       infinite: false,
     })
-    // Get scroll value
-    lenis.on('scroll', (e: { scroll: number; limit: number }) => {
-      console.log(e)
-    })
 
-    // Use requestAnimationFrame to continuously update the scroll
     function raf(time: number) {
       lenis.raf(time)
       requestAnimationFrame(raf)
@@ -24,7 +28,6 @@ export default function SmoothScrolling() {
 
     requestAnimationFrame(raf)
 
-    // Cleanup
     return () => {
       lenis.destroy()
     }
