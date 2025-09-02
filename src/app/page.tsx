@@ -3,9 +3,18 @@ import tailwindConfig from '../../tailwind.config.js'
 import { useEffect, useState } from 'react'
 import ThreeModel from '@/components/three'
 import Image from 'next/image'
+import ContactForm from '@/components/ContactForm'
+import LoadingScreen from '@/components/LoadingScreen'
+import { gsap } from 'gsap'
+import { useGSAP } from '@gsap/react'
+import { SplitText } from 'gsap/all'
 
 export default function Home() {
+  
+  
   const [scrollY, setScrollY] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+  const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -13,10 +22,29 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const handleLoadingComplete = () => {
+    setIsLoading(false)
+    // Delay content appearance for smooth transition
+    setTimeout(() => setShowContent(true), 200)
+  }
+  useGSAP(() => {
+    const split = new SplitText(".hero-title", { type: "chars" })
+    
+    gsap.from(split.chars, {
+      y: 100,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.05,
+      ease: "back.out(1.7)"
+    })
+  }, [showContent])
+   
   return (
     <>
-    
-      {/* Your existing hero section with parallax */}
+     {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
+      
+      <div className={`transition-opacity duration-1000 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
+       {/* Your existing hero section with parallax */}
       <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex md:items-end md:justify-between overflow-hidden">
         {/* Background with parallax effect */}
         <div 
@@ -31,14 +59,14 @@ export default function Home() {
         {/* Your existing content - unchanged */}
         <div className="w-full h-full flex flex-col md:justify-between relative z-10 pt-20">
           <div className="relative z-10 text-center  md:mt-[-800px]">
-            <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none text-white">
+            <h1 className="hero-title text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none text-white">
               FULL STACK DEVELOPER
             </h1>
           </div>
           <div className="flex justify-end items-center relative z-10 w-full h-full">
             <div className="hidden md:block md:w-1/2 h-96"></div>
             <div className="md:w-1/2 text-white  md:h-96  text-xl md:text-3xl p-10  md:p-0 md:pr-30 md:mt-[-600px]">
-              <p className="!uppercase text-[18px] iphone-plus:text-[24px]  md:text-4xl">
+              <p className="hero-text !uppercase text-[18px] iphone-plus:text-[24px]  md:text-4xl">
                 &ldquo;Meet Alexandros Palikrousis: Shopify sorcerer by day, 
                 full stack student by night. I transform business ideas 
                 into functioning websites (and occasionally functioning 
@@ -55,7 +83,11 @@ export default function Home() {
       </div>
 
       {/* Black sections that appear when scrolling */}
-      <div className="bg-black text-white !overflow-x-hidden">
+      <div className="bg-black text-white !overflow-x-hidden"
+      style={{
+        backgroundImage: "url('/bg-3.jpg')",
+        backgroundAttachment: "fixed" // Optional: makes background stay in place while scrolling
+      }}>
         <section className="min-h-screen flex items-center justify-center p-8 ">
           <div className="md:w-1/2 pr-10 pl-10 md:mt-[50px]">
             <h2 className="text-6xl font-bold mb-16 uppercase tracking-tighter leading-none">Hello I am Alexander</h2>
@@ -86,16 +118,19 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="min-h-screen flex items-center justify-center p-8">
+        <div className="min-h-screen flex items-center justify-center p-8">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-6xl font-bold mb-8 uppercase">Contact</h2>
-            <p className="text-xl leading-relaxed">
-              Get in touch...
+            <p className="text-xl leading-relaxed mb-12">
+              Let's work together! Drop me a message and I'll get back to you.
             </p>
+            <ContactForm />
           </div>
-        </section>
+          </div>
+        </div>
       </div>
       
+        
     </>
   );
 }
