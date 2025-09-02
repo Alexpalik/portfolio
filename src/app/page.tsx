@@ -7,7 +7,6 @@ import ContactForm from '@/components/ContactForm'
 import LoadingScreen from '@/components/LoadingScreen'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
-import { SplitText } from 'gsap/all'
 
 export default function Home() {
   
@@ -28,15 +27,23 @@ export default function Home() {
     setTimeout(() => setShowContent(true), 200)
   }
   useGSAP(() => {
-    const split = new SplitText(".hero-title", { type: "chars" })
-    
-    gsap.from(split.chars, {
-      y: 100,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.05,
-      ease: "back.out(1.7)"
-    })
+    if (showContent) {
+      const titleElement = document.querySelector('.hero-title')
+      if (titleElement) {
+        const text = titleElement.textContent || ''
+        const chars = text.split('').map(char => `<span style="display:inline-block;">${char === ' ' ? '&nbsp;' : char}</span>`).join('')
+        titleElement.innerHTML = chars
+        
+        const charElements = titleElement.querySelectorAll('span')
+        gsap.from(charElements, {
+          y: 100,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.05,
+          ease: "back.out(1.7)"
+        })
+      }
+    }
   }, [showContent])
    
   return (
