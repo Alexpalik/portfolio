@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -11,7 +11,7 @@ export async function GET() {
         const { data, error } = await supabase
         .from('contacts' )
         .select('*')
-        
+
         if (error) {
             throw new Error('Failed to get contacts')
         }

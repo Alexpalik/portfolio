@@ -1,5 +1,5 @@
 'use client'
-import tailwindConfig from '../../tailwind.config.js'
+
 import { useEffect, useState } from 'react'
 import ThreeModel from '@/components/three'
 import Image from 'next/image'
@@ -74,15 +74,15 @@ export default function Home() {
             <div className="hidden md:block md:w-1/2 h-96"></div>
             <div className="md:w-1/2 text-white  md:h-96  text-xl md:text-3xl p-10  md:p-0 md:pr-30 md:mt-[-600px]">
               <p className="hero-text !uppercase text-[18px] iphone-plus:text-[24px]  md:text-4xl">
-                &ldquo;Meet Alexandros Palikrousis: Shopify sorcerer by day, 
+                &apos;Meet Alexandros Palikrousis: Shopify sorcerer by day, 
                 full stack student by night. I transform business ideas 
                 into functioning websites (and occasionally functioning 
                 websites into mysterious error messages). My superpowers 
                 include turning coffee into code, making divs do what 
-                they&rsquo;re told, and maintaining a healthy relationship 
+                they&apos;re told, and maintaining a healthy relationship 
                 with Git merge conflicts. Currently learning that 
-                &ldquo;full stack&rdquo; means being confused in multiple languages 
-                simultaneously&rdquo;
+                &apos;full stack&apos; means being confused in multiple languages 
+                simultaneously&apos;
               </p>
             </div>
           </div>
