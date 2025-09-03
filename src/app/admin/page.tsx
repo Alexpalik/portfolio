@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { signIn, signOut, getUser } from '@/lib/auth'
+import { createClient } from '@supabase/supabase-js'
 
 interface Contact {
     id: string
@@ -22,8 +23,20 @@ export default function AdminPage() {
     const [password, setPassword] = useState('')
     const [loginError, setLoginError] = useState('')
 
-    // Check if user is logged in on page load
+    // Create Supabase client inside useEffect
     useEffect(() => {
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+        const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+        if (!supabaseUrl || !supabaseKey) {
+            console.error('Missing Supabase configuration')
+            setLoading(false)
+            return
+        }
+
+        const supabase = createClient(supabaseUrl, supabaseKey)
+        
+        // Move your auth logic here
         checkUser()
     }, [])
 
