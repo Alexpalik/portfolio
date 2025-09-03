@@ -1,6 +1,5 @@
-export const dynamic = 'force-dynamic'
-
 'use client'
+
 
 import { useEffect, useState } from 'react'
 import ThreeModel from '@/components/three'
@@ -9,6 +8,8 @@ import ContactForm from '@/components/ContactForm'
 import LoadingScreen from '@/components/LoadingScreen'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
+
+export const dynamic = 'force-dynamic'
 
 export default function Home() {
   
