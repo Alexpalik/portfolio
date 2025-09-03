@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+'use client'
 import { useState, useEffect } from 'react'
 import { signIn, signOut, getUser } from '@/lib/auth'
 import { createClient } from '@supabase/supabase-js'
@@ -11,6 +11,8 @@ interface Contact {
     message: string
     created_at: string
 }
+
+export const dynamic = 'force-dynamic'
 
 export default function AdminPage() {
     const [contacts, setContacts] = useState<Contact[]>([])
