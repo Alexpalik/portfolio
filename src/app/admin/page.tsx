@@ -1,4 +1,4 @@
-'use client'
+export const dynamic = 'force-dynamic'
 import { useState, useEffect } from 'react'
 import { signIn, signOut, getUser } from '@/lib/auth'
 import { createClient } from '@supabase/supabase-js'
