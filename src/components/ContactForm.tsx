@@ -3,11 +3,17 @@
 import { useState } from "react";
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
-
+// Move Supabase client creation inside a function
+function getSupabaseClient() {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    
+    if (!supabaseUrl || !supabaseKey) {
+        throw new Error('Missing Supabase environment variables')
+    }
+    
+    return createClient(supabaseUrl, supabaseKey)
+}
 
 interface ContactFormProps {
     name: string;
@@ -25,6 +31,8 @@ export default function ContactForm() {
         setIsLoading(true)  // Start loading
         
         try {
+            const supabase = getSupabaseClient() // Create client only when needed
+            
             const { data, error } = await supabase
             .from('contacts')
             .insert({
