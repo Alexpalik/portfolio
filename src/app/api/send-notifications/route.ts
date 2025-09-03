@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { sendDiscordNotification } from '../../../lib/discord'
+import { sendDiscordNotification } from '@/lib/discord'
 
 export async function POST(request: NextRequest) {
   try {
@@ -7,15 +7,16 @@ export async function POST(request: NextRequest) {
     
     console.log('Received contact data:', contact)
     
-    // Send Discord notification
-    await sendDiscordNotification(contact)
+    // Check if Discord webhook is configured
+    if (process.env.DISCORD_WEBHOOK_URL) {
+      await sendDiscordNotification(contact)
+    } else {
+      console.log('Discord webhook not configured, skipping notification')
+    }
     
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Notification error:', error)
-    return NextResponse.json(
-      { error: 'Failed to send notifications' },
-      { status: 500 }
-    )
+    return NextResponse.json({ success: true }) // Don't fail if Discord fails
   }
 } 
