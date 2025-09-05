@@ -3,34 +3,55 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { X } from "lucide-react";
+import  localFont  from "next/font/local";
+import { usePathname } from "next/navigation";
+const neueMontrealMedium = localFont({
+  src: '../fonts/NeueMontreal-Medium.otf',
+  weight: '500'
+})
+
+
+
 
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
     const toggleMenu = () => setIsOpen(!isOpen);
     const closeMenu = () => setIsOpen(false);
+    const pathname = usePathname();
+    const textColor = pathname === "/portfolio" ? "text-white" : "text-[rgb(11,16,20)]";
+    const hamburgerColor = pathname === '/portfolio' ? 'bg-white' : 'bg-[rgb(11,16,20)]';
   return (
     <>
-    <div className="left-0 top-0 h-screen w-24 flex flex-col fixed hidden md:flex">
-        <div className="flex flex-1 flex-col items-center justify-between py-50 pt-10">
-            <Link href="/" className="px-2">
-              <Image src="/logo5.png" alt="logo" width={100} height={100} />
+    <div className="top-0 w-screen h-24 flex fixed hidden md:flex z-100">
+        <header className="flex items-center w-full justify-between px-10">
+            <Link href="/" className="flex items-center gap-2">
+              <h1 className={`${neueMontrealMedium.className} ${textColor} text-[25px] font-medium`}>
+                Alexandros Palikrousis
+              </h1>
             </Link>
-            <Link href="/" className="text-black transform rotate-270 text-2xl">Work</Link>
-            <Link href="/" className="text-black transform rotate-270 text-2xl">About</Link> 
-            <Link href="/" className="text-black transform rotate-270 text-2xl">Contact</Link>
-       </div>
+            <div className="flex items-center gap-4 px-2">
+            <Link href="/" className={`${neueMontrealMedium.className}  text-[25px] font-medium ${textColor}`}>Selected Works</Link>
+            <Link href="/portfolio" className={`${neueMontrealMedium.className}  text-[25px] font-medium ${textColor}`}>Portfolio</Link> 
+            
+            </div>
+       </header>
     </div>
-    <div className="md:hidden fixed top-0 bg-black w-full h-16 z-70">
-      <div className="flex justify-end items-center h-full">
+    <div className="md:hidden fixed top-0  w-full h-16 z-70">
+      <div className="flex justify-between items-center h-full px-[6px]">
+        <div>
+          <h1 className={`${neueMontrealMedium.className} ${textColor} text-[25px] font-medium z-10`}>
+            Alexandros Palikrousis
+          </h1>
+        </div>
         <button onClick={toggleMenu} className="p-2 rounded-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300">
           <div className="w-6 h-6 flex flex-col justify-center items-center">
-              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${
+              <span className={`${hamburgerColor} block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${
                 isOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'
               }`} />
-              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${
+              <span className={`${hamburgerColor} block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${
                 isOpen ? 'opacity-0' : 'opacity-100'
               }`} />
-              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${
+              <span className={`${hamburgerColor} block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${
                 isOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'
               }`} />
             </div>

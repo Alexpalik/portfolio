@@ -5,10 +5,13 @@ import { useEffect, useState } from 'react'
 import ThreeModel from '@/components/three'
 import Image from 'next/image'
 import ContactForm from '@/components/ContactForm'
-import LoadingScreen from '@/components/LoadingScreen'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
-
+import localFont from 'next/font/local'
+const neueMontrealMedium = localFont({
+  src: '../fonts/NeueMontreal-Medium.otf',
+  weight: '500'
+})
 export const dynamic = 'force-dynamic'
 
 export default function Home() {
@@ -51,47 +54,68 @@ export default function Home() {
    
   return (
     <>
-     {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
       
-      <div className={`transition-opacity duration-1000 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`transition-opacity duration-1000`}>
        {/* Your existing hero section with parallax */}
-      <div className="min-h-screen bg-cover bg-center bg-no-repeat relative flex md:items-end md:justify-between overflow-hidden">
+      <section className="min-h-screen  relative flex md:items-end md:justify-between overflow-hidden">
         {/* Background with parallax effect */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0"
           style={{
-            backgroundImage: "url('/herobg-hd@2x.webp')",
+            backgroundColor: "rgb(84, 98, 90)",
             transform: `translateY(${scrollY * 0.4}px)`,
             overflow: 'hidden'
           }}
         />
         
-        {/* Your existing content - unchanged */}
-        <div className="w-full h-full flex flex-col md:justify-between relative z-10 pt-20">
-          <div className="relative z-10 text-center  md:mt-[-800px]">
-            <h1 className="hero-title text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none text-white">
-              FULL STACK DEVELOPER
-            </h1>
-          </div>
-          <div className="flex justify-end items-center relative z-10 w-full h-full">
-            <div className="hidden md:block md:w-1/2 h-96"></div>
-            <div className="md:w-1/2 text-white  md:h-96  text-xl md:text-3xl p-10  md:p-0 md:pr-30 md:mt-[-600px]">
-              <p className="hero-text !uppercase text-[18px] iphone-plus:text-[24px]  md:text-4xl">
-                &apos;Meet Alexandros Palikrousis: Shopify sorcerer by day, 
-                full stack student by night. I transform business ideas 
-                into functioning websites (and occasionally functioning 
-                websites into mysterious error messages). My superpowers 
-                include turning coffee into code, making divs do what 
-                they&apos;re told, and maintaining a healthy relationship 
-                with Git merge conflicts. Currently learning that 
-                &apos;full stack&apos; means being confused in multiple languages 
-                simultaneously&apos;
-              </p>
-            </div>
-          </div>
+        <div className='flex flex-col items:center md:items-left justify-between h-screen w-full pt-[100px] px-[36px]'>
+           <h1 className='z-10 pb-[100px] top-0'>
+              <div>
+                  <div className={`${neueMontrealMedium.className}  text-[60px] md:text-[115px] text-[rgb(11,16,20)]`}>
+                      Greek Creative
+                  </div>
+              </div>
+              <div>
+                <div className={`${neueMontrealMedium.className} text-[60px] md:text-[115px] text-[rgb(11,16,20)]`}>
+                  Front-End Developer
+                </div>
+              </div>
+           </h1>
+           <div className='z-10 md:flex md:flex-row items-center justify-between py-[64px]'>
+             <div className={`${neueMontrealMedium.className}  mb-4 md:mb-0 text-3xl md:text-5xl font-normal`}>
+                  <p>
+                  Folio:05
+                  </p>
+             </div>
+             <div className={`${neueMontrealMedium.className}  grid grid-cols-2 row-gap-2 md:flex  md:items-center md:justify-between md:gap-8`}>
+                 <div className='text-sm md:text-xl'>
+                     <p>
+                     Availability:<br/>
+                     March 2025
+                     </p>
+                 </div>
+                 <div className='text-sm md:text-xl'>
+                     <p>Contact:<br/>
+                     alexandrospalikrousis@gmail.com
+                     </p>
+                 </div>
+                 <div className='text-sm md:text-xl'>
+                     <p>
+                     Current location:<br/>
+                     Thessaloniki, Greece
+                     </p>
+                 </div>
+                 <div className='text-sm md:text-xl'>
+                    <p>
+                    Copyright:<br/>
+                    ©2025 Alexandros Palikrousis
+                    </p>
+                 </div>
+             </div>
+           </div>
         </div>
-      </div>
-
+      </section>
+      
       {/* Black sections that appear when scrolling */}
       <div className="bg-black text-white !overflow-x-hidden"
       style={{
@@ -101,13 +125,17 @@ export default function Home() {
         <section className="min-h-screen flex items-center justify-center p-8 ">
           <div className="md:w-1/2 pr-10 pl-10 md:mt-[50px]">
             <h2 className="text-6xl font-bold mb-16 uppercase tracking-tighter leading-none">Hello I am Alexander</h2>
-            <p className="flex justify-end !uppercase  text-xl md:text-4xl">I use my passion and skills</p>
+            <p className="flex justify-end !uppercase  text-xl md:text-4xl">Shopify sorcerer by day</p>
             <p className="!uppercase text-xl md:text-4xl leading-relaxed font-medium">
-            to create digital products and
-            experiences. National and international
-            customers rely on me for design,
-            implementation, and management of their
-            digital products.
+            full stack student by night.
+            I transform business ideas 
+            into functioning websites (and occasionally functioning 
+            websites into mysterious error messages).
+            My superpowers 
+            include turning coffee into code, making divs do what 
+            they&apos;re told. Currently learning that 
+            &apos;full stack&apos; means being confused in multiple languages 
+            simultaneously&apos;.
             </p>
           </div>
           <div className="max-w-4xl mx-auto text-center !overflow-x-hidden">
