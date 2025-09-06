@@ -21,11 +21,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [showContent, setShowContent] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  
 
   const handleLoadingComplete = () => {
     setIsLoading(false)
@@ -55,28 +51,26 @@ export default function Home() {
   return (
     <>
       
-      <div className={`transition-opacity duration-1000`}>
+      
        {/* Your existing hero section with parallax */}
       <section className="min-h-screen  relative flex md:items-end md:justify-between overflow-hidden">
-        {/* Background with parallax effect */}
+        {/* Background */}
         <div 
-          className="absolute inset-0"
+          className="absolute inset-0 w-full h-full"
           style={{
             backgroundColor: "rgb(84, 98, 90)",
-            transform: `translateY(${scrollY * 0.4}px)`,
-            overflow: 'hidden'
           }}
         />
         
-        <div className='flex flex-col items:center md:items-left justify-between h-screen w-full pt-[100px] px-[36px]'>
-           <h1 className='z-10 pb-[100px] top-0'>
-              <div>
-                  <div className={`${neueMontrealMedium.className}  text-[60px] md:text-[115px] text-[rgb(11,16,20)]`}>
+        <div className='flex flex-col items:center md:items-left justify-between h-screen w-full pt-[80px] px-[10px] md:pt-[100px] md:px-[36px]'>
+           <h1 className='z-10 md:pb-[100px] top-0'>
+              <div className='md:max-h-[145px]'>
+                  <div className={`${neueMontrealMedium.className}  text-[57px] md:text-[115px] text-[rgb(11,16,20)]`}>
                       Greek Creative
                   </div>
               </div>
-              <div>
-                <div className={`${neueMontrealMedium.className} text-[60px] md:text-[115px] text-[rgb(11,16,20)]`}>
+              <div className='md:max-h-[145px]'>
+                <div className={`${neueMontrealMedium.className} text-[57px] md:text-[115px] text-[rgb(11,16,20)]`}>
                   Front-End Developer
                 </div>
               </div>
@@ -87,25 +81,25 @@ export default function Home() {
                   Folio:05
                   </p>
              </div>
-             <div className={`${neueMontrealMedium.className}  grid grid-cols-2 row-gap-2 md:flex  md:items-center md:justify-between md:gap-8`}>
-                 <div className='text-sm md:text-xl'>
+             <div className={`${neueMontrealMedium.className}  grid grid-cols-2 gap-y-2 md:flex  md:items-center md:justify-between md:gap-8`}>
+                 <div className='text-xs md:text-xl'>
                      <p>
                      Availability:<br/>
                      March 2025
                      </p>
                  </div>
-                 <div className='text-sm md:text-xl'>
+                 <div className='text-xs md:text-xl'>
                      <p>Contact:<br/>
                      alexandrospalikrousis@gmail.com
                      </p>
                  </div>
-                 <div className='text-sm md:text-xl'>
+                 <div className='text-xs md:text-xl'>
                      <p>
                      Current location:<br/>
                      Thessaloniki, Greece
                      </p>
                  </div>
-                 <div className='text-sm md:text-xl'>
+                 <div className='text-xs md:text-xl'>
                     <p>
                     Copyright:<br/>
                     ©2025 Alexandros Palikrousis
@@ -117,16 +111,19 @@ export default function Home() {
       </section>
       
       {/* Black sections that appear when scrolling */}
-      <div className="bg-black text-white !overflow-x-hidden"
+      <div className="!overflow-x-hidden"
       style={{
-        backgroundImage: "url('/bg-3.jpg')",
+        backgroundColor: "rgb(11, 16, 20)",
         backgroundAttachment: "fixed" // Optional: makes background stay in place while scrolling
       }}>
         <section className="min-h-screen flex items-center justify-center p-8 ">
           <div className="md:w-1/2 pr-10 pl-10 md:mt-[50px]">
-            <h2 className="text-6xl font-bold mb-16 uppercase tracking-tighter leading-none">Hello I am Alexander</h2>
-            <p className="flex justify-end !uppercase  text-xl md:text-4xl">Shopify sorcerer by day</p>
-            <p className="!uppercase text-xl md:text-4xl leading-relaxed font-medium">
+            <h2 className="text-6xl font-bold mb-16 uppercase tracking-tighter leading-none"
+            style={{color: "rgb(84, 98, 90)"}}>Hello I am Alexander</h2>
+            <p className="flex justify-end !uppercase  text-xl md:text-4xl"
+            style={{color: "rgb(84, 98, 90)"}}>Shopify sorcerer by day</p>
+            <p className="!uppercase text-xl md:text-4xl leading-relaxed font-medium"
+            style={{color: "rgb(84, 98, 90)"}}>
             full stack student by night.
             I transform business ideas 
             into functioning websites (and occasionally functioning 
@@ -166,7 +163,7 @@ export default function Home() {
           </div>
           </div>
         </div>
-      </div>
+      
       
         
     </>

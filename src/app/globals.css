@@ -32,18 +32,17 @@
   font-style: normal;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'Neue Montreal', sans-serif;
-}
-
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  width: 100%;
+html, body {
+  background: rgb(84, 98, 90); /* Same as your page background */
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  overscroll-behavior: none; /* This prevents the bounce/overscroll */
+}
+
+/* Also add this to prevent overscroll on the main container */
+main {
+  overscroll-behavior: none;
 }
 
 html.lenis,
