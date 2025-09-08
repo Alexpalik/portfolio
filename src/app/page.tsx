@@ -8,6 +8,7 @@ import ContactForm from '@/components/ContactForm'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import localFont from 'next/font/local'
+import SelectedWorks from '@/components/SelectedWorks'
 const neueMontrealMedium = localFont({
   src: '../fonts/NeueMontreal-Medium.otf',
   weight: '500'
@@ -120,9 +121,9 @@ export default function Home() {
           <div className="md:w-1/2 pr-10 pl-10 md:mt-[50px]">
             <h2 className="text-6xl font-bold mb-16 uppercase tracking-tighter leading-none"
             style={{color: "rgb(84, 98, 90)"}}>Hello I am Alexander</h2>
-            <p className="flex justify-end !uppercase  text-xl md:text-4xl"
+            <p className="flex justify-end   text-xl md:text-5xl"
             style={{color: "rgb(84, 98, 90)"}}>Shopify sorcerer by day</p>
-            <p className="!uppercase text-xl md:text-4xl leading-relaxed font-medium"
+            <p className="text-xl md:text-5xl"
             style={{color: "rgb(84, 98, 90)"}}>
             full stack student by night.
             I transform business ideas 
@@ -139,31 +140,16 @@ export default function Home() {
             <div className="absolute right-0  transform  mt-[200px] md:mt-[-100px] ml-[300px] md:mr-[-100px] !overflow-x-hidden">
              <ThreeModel />
             </div>
-            <Image src="/img2.png" alt="About" width={600} height={600}  className="absolute right-0 transform mt-[600px] md:mt-[300px]  md:mr-[250px]"/>
+            <Image src="/img2.png" alt="About" width={600} height={600}  className="absolute right-0 transform mt-[650px] md:mt-[400px] md:mr-[250px]"/>
             
           </div>
         </section>
 
-        <section className="min-h-screen flex items-center justify-center p-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-6xl font-bold mb-8 uppercase">Work</h2>
-            <p className="text-xl leading-relaxed">
-              Your projects and portfolio...
-            </p>
-          </div>
+        <section className="min-h-screen flex p-8 pt-[450px] md:pt-[100px]">
+           <SelectedWorks />
         </section>
-
-        <div className="min-h-screen flex items-center justify-center p-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-6xl font-bold mb-8 uppercase">Contact</h2>
-            <p className="text-xl leading-relaxed mb-12">
-              Let's work together! Drop me a message and I'll get back to you.
-            </p>
-            <ContactForm />
-          </div>
-          </div>
         </div>
-      
+        
       
         
     </>

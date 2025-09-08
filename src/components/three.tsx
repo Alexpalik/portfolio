@@ -127,8 +127,8 @@ export default function ThreeModel() {
     <div className="flex items-center justify-center overflow-hidden">
       <div 
         ref={mountRef} 
-        className="overflow-hidden"
-        style={{ width: 600, height: 600 }}
+        className="overflow-hidden w-[510px] md:w-[700px] md:h-[700px] h-[600px]"
+        
       />
     </div>
   )

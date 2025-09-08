@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import SmoothScrolling from "@/components/SmoothScrolling";
 
 
+
 const neueMontrealFont = localFont({
   src: [
     {
@@ -37,8 +38,8 @@ export default function RootLayout({
         <SmoothScrolling />
         <Sidebar />
         <main className="lg:pt-0 min-h-screen w-full overflow-x-hidden">
-        
           {children}
+          
         </main>
       </body>
     </html>
