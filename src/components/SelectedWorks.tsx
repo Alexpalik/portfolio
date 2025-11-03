@@ -5,20 +5,20 @@ import Image from 'next/image'
 const gridBoxes = [
     {
         src: "/gemini1.png",
-        alt: "Gemini 1",
+        alt: "amg",
         number: 1
     },
     null, // Empty space
     {
         src: "/gemini4.png",
-        alt: "Gemini 4",
+        alt: "hyperloq",
         number: 2
     },
     null, // Empty space
     null, // Empty space
     {
-        src: "/gemini3.png",
-        alt: "Gemini 3",
+        src: "/gemini6.png",
+        alt: "4028",
         number: 3
     },
     null, // Empty space
@@ -27,8 +27,8 @@ const gridBoxes = [
     null, // Empty space
     null, // Empty space
     {
-        src: "/gemini2.png",
-        alt: "Gemini 2",
+        src: "/gemini5.png",
+        alt: "widestep",
         number: 4
     }
 ]
@@ -51,7 +51,7 @@ const SelectedWorks = () => {
                 </div>
             </div>
         
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full h-full">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full h-full  md:justify-self-center">
                 {
                     gridBoxes.map((box,index ) => {
                         return box ? (

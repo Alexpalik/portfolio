@@ -70,3 +70,4 @@ html.lenis body {
 * {
   box-sizing: border-box;
 }
+.app-body { background-color: rgb(236, 231, 225); }
