@@ -77,12 +77,12 @@ const SelectedWorks = () => {
   <div className="flex flex-col gap-30">
     <div>
       <div>
-        <h2 className="reveal-text text-lg font-regular mb-4" style={{color: 'rgb(84, 98, 90)'}}>
+        <h2 className="reveal-text text-lg font-regular mb-4" style={{color: 'white'}}>
           Featured projects:11
         </h2>
       </div>
       <div>
-        <h2 className="reveal-text text-5xl font-regular max-w-2xl" style={{color: 'rgb(84, 98, 90)'}}>
+        <h2 className="reveal-text text-5xl font-regular max-w-2xl" style={{color: 'white'}}>
           Selection of projects highlighting
           diverse skills in development.
         </h2>

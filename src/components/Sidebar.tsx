@@ -26,7 +26,7 @@ export default function Sidebar() {
     const params = useParams();
     const path = usePathname();
     const slugFromPath = path?.startsWith('/projects/') ? decodeURIComponent(path.split('/')[2] || '') : undefined;
-    const baseColor = path === '/portfolio' ? '#ffffff' : 'rgb(11,16,20)'; // default per your logic
+    const baseColor = path === '/portfolio' ? '#ffffff' : 'white'; // default per your logic
     const projectColor = slugFromPath ? projects[slugFromPath]?.textColor : undefined;
     const currentColor = projectColor ?? baseColor; // always a valid CSS color string
   return (

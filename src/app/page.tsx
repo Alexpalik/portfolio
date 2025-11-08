@@ -1,7 +1,7 @@
 'use client'
 
 
-import { useEffect, useState, useLayoutEffect } from 'react'
+import { useEffect, useState, useLayoutEffect, useRef } from 'react'
 import Image from 'next/image'
 import ContactForm from '@/components/ContactForm'
 import { gsap } from 'gsap'
@@ -9,6 +9,7 @@ import { useGSAP } from '@gsap/react'
 import localFont from 'next/font/local'
 import SelectedWorks from '@/components/SelectedWorks'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+
 const neueMontrealMedium = localFont({
   src: '../fonts/NeueMontreal-Medium.otf',
   weight: '500'
@@ -24,7 +25,8 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [showContent, setShowContent] = useState(false)
-
+  const heroBgRef = useRef<HTMLDivElement>(null)
+  const landingRef = useRef<HTMLDivElement>(null)
   
 
   const handleLoadingComplete = () => {
@@ -56,7 +58,8 @@ export default function Home() {
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
-    
+    const getRatio = (el: HTMLElement) => 
+      window.innerHeight / (window.innerHeight + el.offsetHeight)
     const ctx = gsap.context(() => {
       const heroTexts = gsap.utils.toArray<HTMLElement>('.hero-text')
       // GPU hint
@@ -71,8 +74,43 @@ export default function Home() {
         force3D: true,
         onComplete: () => heroTexts.forEach(el => (el.style.willChange = 'auto'))
       })
-     
-  
+      
+        // Parallax effect for hero background
+       // Parallax for hero background
+    const heroSection = heroBgRef.current?.parentElement
+    if (heroBgRef.current && heroSection) {
+      gsap.fromTo(heroBgRef.current, {
+        backgroundPosition: "50% 0px"
+      }, {
+        backgroundPosition: () => `50% ${window.innerHeight * (1 - getRatio(heroSection))}px`,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroSection,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+          invalidateOnRefresh: true
+        }
+      })
+    }
+
+    // Parallax for landing background
+    const landingSection = landingRef.current?.parentElement
+    if (landingRef.current && landingSection) {
+      gsap.fromTo(landingRef.current, {
+        backgroundPosition: () => `50% ${-window.innerHeight * getRatio(landingSection)}px`
+      }, {
+        backgroundPosition: () => `50% ${window.innerHeight * (1 - getRatio(landingSection))}px`,
+        ease: "none",
+        scrollTrigger: {
+          trigger: landingSection,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+          invalidateOnRefresh: true
+        }
+      })
+    }
       // Existing scroll-triggered animations
       gsap.utils.toArray<HTMLElement>('.text-an').forEach((el) => {
         gsap.from(el, {
@@ -94,48 +132,46 @@ export default function Home() {
     return () => ctx.revert()
   }, [])
   
-  // only after hero texts started animating
-const [showHeavy, setShowHeavy] = useState(false)
-useEffect(() => {
-  if (!showContent) return
-  const id = setTimeout(() => setShowHeavy(true), 300) // small delay
-  return () => clearTimeout(id)
-}, [showContent])
-  
+
   return (
     <>
       
       
        {/* Your existing hero section with parallax */}
-      <section className="min-h-screen  relative flex md:items-end md:justify-between overflow-hidden">
+      <section className="min-h-screen h-screen relative flex md:items-end md:justify-between overflow-hidden">
         {/* Background */}
         <div 
-          className="absolute inset-0 w-full h-full"
+          ref={heroBgRef}
+          className="absolute inset-0 w-full h-[120%] bg" // h-[120%] makes it larger
           style={{
-            backgroundColor: "rgb(84, 98, 90)",
+            backgroundImage: "url('/footer.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            top: '-10%', // Start slightly above to account for movement
           }}
         />
         
         <div className='flex flex-col items:center md:items-left justify-between h-screen w-full pt-[80px] px-[10px] md:pt-[100px] md:px-[36px]'>
            <h1 className='z-10 md:pb-[100px] top-0'>
               <div className='md:max-h-[145px]'>
-                  <div className={`hero-text ${neueMontrealMedium.className}  text-[57px] md:text-[115px] text-[rgb(11,16,20)]`}>
+                  <div className={`hero-text ${neueMontrealMedium.className}  text-[57px] md:text-[115px] text-[white]`}>
                       Greek Creative
                   </div>
               </div>
               <div className='md:max-h-[145px]'>
-                <div className={`hero-text ${neueMontrealMedium.className} text-[57px] md:text-[115px] text-[rgb(11,16,20)]`}>
+                <div className={`hero-text ${neueMontrealMedium.className} text-[57px] md:text-[115px] text-[white]`}>
                   Front-End Developer
                 </div>
               </div>
            </h1>
            <div className='z-10 md:flex md:flex-row items-center justify-between py-[64px]'>
-             <div className={`hero-text ${neueMontrealMedium.className}  mb-4 md:mb-0 text-3xl md:text-5xl font-normal`}>
+             <div className={`hero-text ${neueMontrealMedium.className}  mb-4 md:mb-0 text-3xl md:text-5xl font-normal text-white`}>
                   <p>
                   Folio:05
                   </p>
              </div>
-             <div className={`hero-text ${neueMontrealMedium.className}  grid grid-cols-2 gap-y-2 md:flex  md:items-center md:justify-between md:gap-8`}>
+             <div className={`hero-text ${neueMontrealMedium.className}  grid grid-cols-2 gap-y-2 md:flex  md:items-center md:justify-between md:gap-8 text-white`}>
                  <div className='text-xs md:text-xl'>
                      <p>
                      Availability:<br/>
@@ -165,18 +201,24 @@ useEffect(() => {
       </section>
       
       {/* Black sections that appear when scrolling */}
-      <div className="!overflow-x-hidden"
+      <div className="relative min-h-screen w-full section overflow-hidden">
+      <div
+       ref={landingRef}
+        className="absolute inset-0 w-full h-full bg"
       style={{
-        backgroundColor: "rgb(11, 16, 20)",
+        backgroundImage: "url('/LandingPicture.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
        
       }}>
         <section className="min-h-screen flex items-cenqter justify-center p-8 ">
           <div className="md:w-1/2 md:mt-[50px]">
             <h2 className="text-an text-6xl font-bold mb-16"
-            style={{color: "rgb(84, 98, 90)"}}>Hello I am Alexander</h2>
+            style={{color: "white"}}>Hello I am Alexander</h2>
             
             <p className="text-an text-xl md:text-4xl"
-            style={{color: "rgb(84, 98, 90)"}}>
+            style={{color: "white"}}>
             Shopify sorcerer by day, full stack student by night.
             I transform business ideas 
             into functioning websites (and occasionally functioning 
@@ -195,10 +237,15 @@ useEffect(() => {
           </div>
         </section>
 
-        <section id="selected-works" className="min-h-screen flex p-8 pt-[450px] md:pt-[100px]">
+        
+        </div>
+        </div>
+        <section id="selected-works" className="min-h-screen flex p-8 pt-[450px] md:pt-[100px]"
+        style={{
+          backgroundColor: "rgb(11,16,20)",
+        }}>
            <SelectedWorks />
         </section>
-        </div>
         
       
         
