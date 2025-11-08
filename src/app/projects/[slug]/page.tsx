@@ -55,7 +55,7 @@ export default function ProjectPage() {
                     alt={project.title} 
                     width={957} 
                     height={733} 
-                    className="object-cover w-full h-auto max-h-[200px] md:max-h-auto md:w-auto xl:w-[800px] xl:h-[533px] 2xl:w-[1000px] 2xl:h-[667px]"
+                    className="object-cover w-full h-auto max-h-[200px] md:max-h-[100%] md:w-auto xl:w-[800px] xl:h-[533px] 2xl:w-[1000px] 2xl:h-[667px]"
                     />
                     
                     {/* Navigation boxes - positioned inside image container */}
