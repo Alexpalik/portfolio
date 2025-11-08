@@ -11,7 +11,7 @@ export interface ProjectData{
 
 export const projects: Record<string, ProjectData> = {
     "4028": {
-        title: "4028 Store",
+        title: "4028 Store Full-Stack",
         shortDescription: "A comprehensive full-stack school project built with custom HTML, CSS, JavaScript, Python, MongoDB, and Docker.",
         fullDescription: "4028 is a full-stack e-commerce project developed as part of my academic curriculum. Built from the ground up using custom HTML, CSS, and JavaScript for the frontend, Python for the backend, MongoDB for database management, and Docker for containerization. This project demonstrates proficiency in modern web development technologies and DevOps practices.",
         backgroundColor: "rgb(232, 84, 55)", // Indigo
@@ -27,7 +27,7 @@ export const projects: Record<string, ProjectData> = {
         imageSrc: "/gemini1.png"
     },
     "hyperloq": {
-        title: "Hypeloq",
+        title: "Hyperloq Dragon's Den",
         shortDescription: "Dragon's Den featured project where I implemented custom Shopify adjustments and optimizations.",
         fullDescription: "Hypeloq is an innovative venture that gained recognition on Dragon's Den. I contributed as a Shopify developer, implementing custom adjustments, optimizing the user interface, and ensuring the platform meets the high standards expected from a Dragon's Den featured company. This project showcases my ability to work with high-profile clients.",
         backgroundColor: "rgb(42, 42, 45)", // Red
@@ -35,7 +35,7 @@ export const projects: Record<string, ProjectData> = {
         imageSrc: "/gemini4.png"
     },
     "widestep": {
-        title: "Widestep",
+        title: "Widestep Shopify",
         shortDescription: "My first Shopify freelancer project - a complete new website built from scratch on the Shopify platform.",
         fullDescription: "Widestep marks my first professional Shopify freelancing project. I built this entire website from scratch on the Shopify platform, handling everything from design implementation to functionality development. This project was a significant milestone in my freelance career, establishing my expertise in Shopify development.",
         backgroundColor: "rgb(252, 246, 232)", // Sky Blue
@@ -43,7 +43,7 @@ export const projects: Record<string, ProjectData> = {
         imageSrc: "/gemini5.png"
     },
     "females": {
-        title: "Females",
+        title: "Females Shopify",
         shortDescription: "A custom-built website created with Shopify, showcasing unique design and functionality tailored to the brand.",
         fullDescription: "Females is a custom website built entirely on the Shopify platform. This project involved creating a unique design that reflects the brand's identity, implementing custom functionality, and ensuring a seamless user experience. The site demonstrates my ability to leverage Shopify's capabilities to create distinctive, custom solutions.",
         backgroundColor: "rgb(219, 39, 119)", // Pink/Rose

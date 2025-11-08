@@ -71,3 +71,5 @@ html.lenis body {
   box-sizing: border-box;
 }
 .app-body { background-color: rgb(236, 231, 225); }
+
+.font-neue { font-family: var(--font-neue-montreal); }

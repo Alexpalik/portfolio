@@ -4,6 +4,9 @@ module.exports = {
       ],
   theme: {
     extend: {
+      fontFamily: {
+        neue: ['var(--font-neue-montreal)'],
+      },
       screens: {
         'xs': '320px',     // Very small phones
         'iphone-se': '375px',  // iPhone SE, iPhone 12/13 mini

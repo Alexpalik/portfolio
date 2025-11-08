@@ -3,6 +3,7 @@ import localFont from 'next/font/local'
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import SmoothScrolling from "@/components/SmoothScrolling";
+import CursorDot from "@/components/CursorDot";
 
 
 
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body className={`${neueMontrealFont.className} app-body antialiased overflow-x-hidden`}>
         <SmoothScrolling />
         <Sidebar />
+        <CursorDot />
         <main className="lg:pt-0 min-h-screen w-full overflow-x-hidden">
           {children}
           

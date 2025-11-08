@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { X } from "lucide-react";
 import  localFont  from "next/font/local";
-import { usePathname,useParams } from "next/navigation";
+import { usePathname,useParams, useRouter } from "next/navigation";
+
 const neueMontrealMedium = localFont({
   src: '../fonts/NeueMontreal-Medium.otf',
   weight: '500'
@@ -15,6 +16,7 @@ const neueMontrealMedium = localFont({
 
 
 export default function Sidebar() {
+  const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const toggleMenu = () => setIsOpen(!isOpen);
     const closeMenu = () => setIsOpen(false);
@@ -38,7 +40,30 @@ export default function Sidebar() {
               </h1>
             </Link>
             <div className="flex items-center gap-4 px-2">
-            <Link href="/" className={`${neueMontrealMedium.className}  text-[25px] font-medium`} style={{color: currentColor}}>Selected Works</Link>
+            <Link 
+              href="/#selected-works" 
+              className={`${neueMontrealMedium.className} text-[25px] font-medium`} 
+              style={{color: currentColor}}
+              onClick={(e) => {
+                e.preventDefault()
+                
+                if (pathname === '/') {
+                  const element = document.getElementById('selected-works')
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }
+                } else {
+                  router.push('/#selected-works')
+                  // Scroll after navigation
+                  setTimeout(() => {
+                    const element = document.getElementById('selected-works')
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    }
+                  }, 100)
+                }
+              }}
+            >Selected Works</Link>
             <Link href="/portfolio" className={`${neueMontrealMedium.className}  text-[25px] font-medium`} style={{color: currentColor}}>Portfolio</Link> 
             
             </div>
