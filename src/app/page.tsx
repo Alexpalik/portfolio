@@ -28,7 +28,7 @@ export default function Home() {
   const heroBgRef = useRef<HTMLDivElement>(null)
   const landingRef = useRef<HTMLDivElement>(null)
   
-  const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768
+  const isMobile =  window.innerWidth <= 768
 
   const handleLoadingComplete = () => {
     setIsLoading(false)
