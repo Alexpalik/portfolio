@@ -35,7 +35,7 @@ export default function ProjectPage() {
       }, [])
     return (
         <>
-            <div className="min-h-[100vh] h-full flex justify-between px-10 pt-15 md:pt-30 md:flex-row flex-col gap-4"
+            <div className="min-h-[100vh] h-full flex justify-between  pt-[80px] px-[10px] md:pt-[100px] md:px-[36px] md:flex-row flex-col gap-4"
              style={{backgroundColor: project.backgroundColor}}
             >
                
