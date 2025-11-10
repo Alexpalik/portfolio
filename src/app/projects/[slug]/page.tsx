@@ -7,6 +7,9 @@ import { useLayoutEffect } from 'react'
 import { gsap } from 'gsap'
 import Link from 'next/link'
 
+
+
+
 export default function ProjectPage() {
     const { slug } = useParams()
     const projectSlug = decodeURIComponent(slug as string)
@@ -39,7 +42,7 @@ export default function ProjectPage() {
                <div className={`flex flex-col md:w-1/2 justify-between items-left max-h-[500px]`}
                style={{color: project.textColor}}
                >
-                    <h3 className="font-neue proj-an text-3xl font-medium mb-[10px] xl:text-[120px] align-left md:whitespace-nowrap">{project.title}</h3> 
+                    <h3 className={`font-neue proj-an text-3xl font-medium mb-[10px] xl:text-[120px] align-left md:whitespace-nowrap`}>{project.title}</h3> 
                     <p className="proj-an text-[16px] md:text-2xl font-medium align-left max-w-sm">
                         {project.shortDescription}
                     </p>

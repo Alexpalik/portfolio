@@ -178,12 +178,12 @@ export default function Home() {
                      March 2025
                      </p>
                  </div>
-                 <div className='hero-texttext-xs md:text-xl'>
+                 <div className='hero-text text-xs md:text-xl'>
                      <p>Contact:<br/>
                      alexandrospalikrousis@gmail.com
                      </p>
                  </div>
-                 <div className='hero-texttext-xs md:text-xl'>
+                 <div className='hero-text text-xs md:text-xl'>
                      <p>
                      Current location:<br/>
                      Thessaloniki, Greece
@@ -212,12 +212,12 @@ export default function Home() {
         backgroundRepeat: "no-repeat",
        
       }}>
-        <section className="min-h-screen flex items-cenqter justify-center p-8 ">
-          <div className="md:w-1/2 md:mt-[50px]">
-            <h2 className="text-an text-6xl font-bold mb-16"
+        <section className={`min-h-screen flex items-left justify-start px-[10px] pt-[40px] md:p-8`}>
+          <div className="md:mt-[50px]">
+            <h2 className={`${neueMontrealMedium.className} text-an text-5xl md:text-[115px] mb-16 white-space-nowrap line-height-[1.5]`}
             style={{color: "white"}}>Hello I am Alexander</h2>
             
-            <p className="text-an text-xl md:text-4xl"
+            <p className="text-an text-xl md:text-4xl max-w-2xl"
             style={{color: "white"}}>
             Shopify sorcerer by day, full stack student by night.
             I transform business ideas 
@@ -230,17 +230,12 @@ export default function Home() {
             simultaneously&apos;.
             </p>
           </div>
-          <div className="max-w-4xl mx-auto text-center !overflow-x-hidden">
-         
-           
-            
-          </div>
         </section>
 
         
         </div>
         </div>
-        <section id="selected-works" className="min-h-screen flex p-8 pt-[450px] md:pt-[100px]"
+        <section id="selected-works" className="min-h-screen flex px-[10px] py-[50px] md:p-8 md:pt-[100px]"
         style={{
           backgroundColor: "rgb(11,16,20)",
         }}>

@@ -31,10 +31,16 @@ const gridBoxes = [
     null, // Empty space
     null, // Empty space
     {
-        src: "/gemini5.png",
+        src: "/widestep2.png",
         alt: "widestep",
         number: 4
-    }
+    },
+    {
+        src: "/females.png",
+        alt: "females",
+        number: 5
+    },
+
 ]
 
 const SelectedWorks = () => {
@@ -78,7 +84,7 @@ const SelectedWorks = () => {
     <div>
       <div>
         <h2 className="reveal-text text-lg font-regular mb-4" style={{color: 'white'}}>
-          Featured projects:11
+          Featured projects:5
         </h2>
       </div>
       <div>
@@ -89,7 +95,7 @@ const SelectedWorks = () => {
       </div>
     </div>
 
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full h-full">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full h-full">
       {gridBoxes.map((box, index) =>
         box ? (
           <div key={index} className="reveal-card">
@@ -102,10 +108,7 @@ const SelectedWorks = () => {
     </div>
   </div>
 </div>
-     <div className="">
-        
-
-     </div>
+     
     </>
     
   )

@@ -40,14 +40,14 @@ export const projects: Record<string, ProjectData> = {
         fullDescription: "Widestep marks my first professional Shopify freelancing project. I built this entire website from scratch on the Shopify platform, handling everything from design implementation to functionality development. This project was a significant milestone in my freelance career, establishing my expertise in Shopify development.",
         backgroundColor: "rgb(252, 246, 232)", // Sky Blue
         textColor: "rgb(0, 30, 98)",
-        imageSrc: "/gemini5.png"
+        imageSrc: "/widestep2.png"
     },
     "females": {
         title: "Females Shopify",
         shortDescription: "A custom-built website created with Shopify, showcasing unique design and functionality tailored to the brand.",
         fullDescription: "Females is a custom website built entirely on the Shopify platform. This project involved creating a unique design that reflects the brand's identity, implementing custom functionality, and ensuring a seamless user experience. The site demonstrates my ability to leverage Shopify's capabilities to create distinctive, custom solutions.",
-        backgroundColor: "rgb(219, 39, 119)", // Pink/Rose
+        backgroundColor: "#ff5781", // Pink/Rose
         textColor: "#ffffff",
-        imageSrc: "/gemini2.png"
+        imageSrc: "/females.png"
     }
 }
