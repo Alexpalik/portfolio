@@ -28,6 +28,7 @@ export default function Home() {
   const heroBgRef = useRef<HTMLDivElement>(null)
   const landingRef = useRef<HTMLDivElement>(null)
   
+  const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768
 
   const handleLoadingComplete = () => {
     setIsLoading(false)
@@ -93,8 +94,8 @@ export default function Home() {
         }
       })
     }
-
-    // Parallax for landing background
+    if (!isMobile){
+      // Parallax for landing background
     const landingSection = landingRef.current?.parentElement
     if (landingRef.current && landingSection) {
       gsap.fromTo(landingRef.current, {
@@ -111,8 +112,9 @@ export default function Home() {
         }
       })
     }
-      // Existing scroll-triggered animations
-      gsap.utils.toArray<HTMLElement>('.text-an').forEach((el) => {
+     
+    }
+     gsap.utils.toArray<HTMLElement>('.text-an').forEach((el) => {
         gsap.from(el, {
           y: 100,
           opacity: 0,
