@@ -28,7 +28,7 @@ export default function Home() {
   const heroBgRef = useRef<HTMLDivElement>(null)
   const landingRef = useRef<HTMLDivElement>(null)
   
-  const isMobile =  window.innerWidth <= 768
+ 
 
   const handleLoadingComplete = () => {
     setIsLoading(false)
@@ -58,6 +58,7 @@ export default function Home() {
   
 
   useLayoutEffect(() => {
+    const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768
     gsap.registerPlugin(ScrollTrigger)
     const getRatio = (el: HTMLElement) => 
       window.innerHeight / (window.innerHeight + el.offsetHeight)
