@@ -4,7 +4,7 @@ import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import SmoothScrolling from "@/components/SmoothScrolling";
 import CursorDot from "@/components/CursorDot";
-
+import { Analytics } from "@vercel/analytics/next"
 
 
 const neueMontrealFont = localFont({
@@ -36,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={neueMontrealFont.variable}>
       <body className={`${neueMontrealFont.className} app-body antialiased overflow-x-hidden`}>
+        <Analytics />
         <SmoothScrolling />
         <Sidebar />
         <CursorDot />
