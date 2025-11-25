@@ -15,6 +15,11 @@ const neueMontrealFont = localFont({
       style: 'normal',
     },
     {
+      path: '../fonts/NeueMontreal-Medium.otf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
       path: '../fonts/NeueMontreal-Bold.otf',
       weight: '700',
       style: 'normal',
@@ -42,7 +47,7 @@ export default function RootLayout({
         <CursorDot />
         <main className="lg:pt-0 min-h-screen w-full overflow-x-hidden">
           {children}
-          
+
         </main>
       </body>
     </html>

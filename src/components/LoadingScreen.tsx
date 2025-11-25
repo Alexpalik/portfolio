@@ -1,14 +1,5 @@
 'use client'
-import { Montserrat } from 'next/font/google'
-
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['400','500', '600', '700'],
-  variable: '--font-montserrat'
-})
-
-
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { gsap } from 'gsap'
 
 interface LoadingScreenProps {
@@ -17,107 +8,68 @@ interface LoadingScreenProps {
 
 export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const boxRef = useRef<HTMLDivElement>(null)
-  const textRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLHeadingElement>(null)
+  const counterRef = useRef<HTMLDivElement>(null)
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
-    if (!boxRef.current || !textRef.current) return
+    // Counter Animation
+    const counter = { value: 0 }
+    gsap.to(counter, {
+      value: 100,
+      duration: 2,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        setCount(Math.floor(counter.value))
+      },
+    })
 
-    // Create GSAP timeline
     const tl = gsap.timeline({
       onComplete: onLoadingComplete
     })
 
-    // Set initial states
-    gsap.set(boxRef.current, {
-      opacity: 0,
-      x: "100%",  // Start from right side
-      width: "0px",
-      height: "10px",
-      transformOrigin: "bottom center",  // Expand from right
-    })
+    // Initial State
+    gsap.set(textRef.current, { y: 100, opacity: 0 })
 
-    gsap.set(textRef.current, {
-      opacity: 1  // Make sure text container is visible
+    tl.to(textRef.current, {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      ease: "power3.out",
+      delay: 0.5
     })
-
-    // Animation sequence
-    tl
-      // Box slides in from right
-      .to(boxRef.current, {
-        x: "0%",
-        opacity: 1,
-        duration: 0.01,
-        ease: "power2.out"
-      })
-      // Box expands width
-      .to(boxRef.current, {
-        width: "100%",
-        duration: 0.4,
-        ease: "power2.inOut"
-      }, "0.5" )
-      // Box expands height
-      .to(boxRef.current, {
-        height: "300px",
-        duration: 0.8,
-        ease: "back.out(1.2)"
-      }, "-=0.2")
-      // Text appears
-      .from(".char", {
+      .to(counterRef.current, {
         opacity: 0,
         duration: 0.5,
-        stagger: 0.05,
-        ease: "power2.out",
-        transformOrigin: "center center"
-      }, "-=0.2")
-      .to({}, { duration: 0.5 })
-      .to(".char",{
-        opacity: 0
-      })
-      .to(boxRef.current, {
-        width: "100vw",
-        height: "100vh",
-        left: 0,
-        top: 0,
-        right: "auto",
-        bottom: "auto",
-        transform: "translate(0, 0)",
-        duration: 1.2,
         ease: "power2.inOut"
-      }, "-=0.3")
-      
+      }, "+=0.5")
+      .to(textRef.current, {
+        y: -100,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.in"
+      }, "<")
+      .to(containerRef.current, {
+        yPercent: -100,
+        duration: 1,
+        ease: "power4.inOut"
+      })
 
   }, [onLoadingComplete])
 
-  const splitText = (text: string, className: string) => {
-    console.log('Splitting text:', text); // Add this line
-    return text.split('').map((char, index) => (
-      <span 
-        key={index} 
-        className={`${className}`}
-        
-      >
-        {char === ' ' ? '\u00A0' : char}
-      </span>
-    ))
-  }
-
   return (
-    <div 
+    <div
       ref={containerRef}
-      className="fixed inset-0 bg-white z-[9999] overflow-hidden"
+      className="fixed inset-0 bg-[#1a1a1a] z-[9999] flex flex-col items-center justify-center text-white overflow-hidden"
     >
-      {/* Black box */}
-      <div 
-        ref={boxRef}
-        className="absolute right-0 top-1/2 -translate-y-1/2 bg-black flex items-center justify-center opacity-0"
-      >
-        {/* Text content */}
-        <div ref={textRef} className="text-center opacity-0">
-          <h1 className={`text-4xl md:text-7xl font-black text-white tracking-wider leading-tight ${montserrat.className}`}>
-            {splitText("ALEXANDROS PALIKROUSIS", "char")}
-          </h1>
-        </div>
+      <div className="relative overflow-hidden">
+        <h1 ref={textRef} className="text-4xl md:text-7xl font-medium tracking-tight">
+          Alexandros Palikrousis
+        </h1>
+      </div>
+
+      <div ref={counterRef} className="absolute bottom-10 right-10 text-8xl md:text-9xl font-bold opacity-20 tabular-nums">
+        {count}%
       </div>
     </div>
   )

@@ -1,252 +1,274 @@
 'use client'
 
-
-import { useEffect, useState, useLayoutEffect, useRef } from 'react'
-import Image from 'next/image'
+import { useState, useLayoutEffect, useRef } from 'react'
 import ContactForm from '@/components/ContactForm'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
-import localFont from 'next/font/local'
 import SelectedWorks from '@/components/SelectedWorks'
 import ScrollTrigger from 'gsap/ScrollTrigger'
-
-const neueMontrealMedium = localFont({
-  src: '../fonts/NeueMontreal-Medium.otf',
-  weight: '500'
-})
-import dynamic from 'next/dynamic'
-
-
-
+import LoadingScreen from '@/components/LoadingScreen'
 
 export default function Home() {
-  
-  
-  const [scrollY, setScrollY] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [showContent, setShowContent] = useState(false)
   const heroBgRef = useRef<HTMLDivElement>(null)
   const landingRef = useRef<HTMLDivElement>(null)
-  
- 
+  const titleRef = useRef<HTMLHeadingElement>(null)
+
+  useLayoutEffect(() => {
+    // Check if we've already shown the loader this session
+    const hasVisited = sessionStorage.getItem('hasVisited')
+    if (hasVisited) {
+      setIsLoading(false)
+      setShowContent(true)
+    }
+  }, [])
 
   const handleLoadingComplete = () => {
     setIsLoading(false)
-    // Delay content appearance for smooth transition
-    setTimeout(() => setShowContent(true), 200)
-  }
-  useGSAP(() => {
-    if (showContent) {
-      const titleElement = document.querySelector('.hero-title')
+    sessionStorage.setItem('hasVisited', 'true')
+    setShowContent(true)
+
+    // Trigger animation immediately
+    requestAnimationFrame(() => {
+      const titleElement = titleRef.current
       if (titleElement) {
-        const text = titleElement.textContent || ''
-        const chars = text.split('').map(char => `<span style="display:inline-block;">${char === ' ' ? '&nbsp;' : char}</span>`).join('')
-        titleElement.innerHTML = chars
-        
-        const charElements = titleElement.querySelectorAll('span')
-        gsap.from(charElements, {
-          y: 100,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "back.out(1.7)"
-        })
+        const chars = titleElement.querySelectorAll('.char')
+        gsap.killTweensOf(chars)
+
+        gsap.fromTo(chars,
+          {
+            y: 100,
+            opacity: 0
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.05,
+            ease: "power4.out",
+          }
+        )
+      }
+    })
+  }
+
+  useGSAP(() => {
+    if (isLoading || !showContent) return
+
+    // Only run this animation if we skipped the loader (returning visitor)
+    const hasVisited = sessionStorage.getItem('hasVisited')
+    if (hasVisited) {
+      const titleElement = titleRef.current
+      if (titleElement) {
+        const chars = titleElement.querySelectorAll('.char')
+        gsap.killTweensOf(chars)
+
+        gsap.fromTo(chars,
+          {
+            y: 100,
+            opacity: 0
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.05,
+            ease: "power4.out",
+          }
+        )
       }
     }
-  }, [showContent])
-   
-  
+  }, [isLoading, showContent])
 
   useLayoutEffect(() => {
+    if (isLoading) return
+
     const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768
     gsap.registerPlugin(ScrollTrigger)
-    const getRatio = (el: HTMLElement) => 
-      window.innerHeight / (window.innerHeight + el.offsetHeight)
-    const ctx = gsap.context(() => {
-      const heroTexts = gsap.utils.toArray<HTMLElement>('.hero-text')
-      // GPU hint
-      heroTexts.forEach(el => (el.style.willChange = 'transform, opacity'))
 
+    const getRatio = (el: HTMLElement) =>
+      window.innerHeight / (window.innerHeight + el.offsetHeight)
+
+    const ctx = gsap.context(() => {
+      const heroTexts = gsap.utils.toArray<HTMLElement>('.hero-meta')
+
+      // Hero meta text reveal
       gsap.from(heroTexts, {
-        y: 80,
+        y: 40,
         opacity: 0,
-        duration: 0.7,
-        ease: 'power3.out',    // lighter than back.out
-        stagger: 0.15,         // now actually staggers
-        force3D: true,
-        onComplete: () => heroTexts.forEach(el => (el.style.willChange = 'auto'))
+        duration: 1,
+        ease: 'power3.out',
+        stagger: 0.1,
+        delay: 0.8
       })
-      
-        // Parallax effect for hero background
-       // Parallax for hero background
-    const heroSection = heroBgRef.current?.parentElement
-    if (heroBgRef.current && heroSection) {
-      gsap.fromTo(heroBgRef.current, {
-        backgroundPosition: "50% 0px"
-      }, {
-        backgroundPosition: () => `50% ${window.innerHeight * (1 - getRatio(heroSection))}px`,
-        ease: "none",
-        scrollTrigger: {
-          trigger: heroSection,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-          invalidateOnRefresh: true
-        }
-      })
-    }
-    if (!isMobile){
+
+      // Parallax for hero background
+      const heroSection = heroBgRef.current?.parentElement
+      if (heroBgRef.current && heroSection) {
+        gsap.fromTo(heroBgRef.current, {
+          backgroundPosition: "50% 0px"
+        }, {
+          backgroundPosition: () => `50% ${window.innerHeight * (1 - getRatio(heroSection))}px`,
+          ease: "none",
+          scrollTrigger: {
+            trigger: heroSection,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+            invalidateOnRefresh: true
+          }
+        })
+      }
+
       // Parallax for landing background
-    const landingSection = landingRef.current?.parentElement
-    if (landingRef.current && landingSection) {
-      gsap.fromTo(landingRef.current, {
-        backgroundPosition: () => `50% ${-window.innerHeight * getRatio(landingSection)}px`
-      }, {
-        backgroundPosition: () => `50% ${window.innerHeight * (1 - getRatio(landingSection))}px`,
-        ease: "none",
-        scrollTrigger: {
-          trigger: landingSection,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-          invalidateOnRefresh: true
+      if (!isMobile) {
+        const landingSection = landingRef.current?.parentElement
+        if (landingRef.current && landingSection) {
+          gsap.fromTo(landingRef.current, {
+            backgroundPosition: () => `50% ${-window.innerHeight * getRatio(landingSection)}px`
+          }, {
+            backgroundPosition: () => `50% ${window.innerHeight * (1 - getRatio(landingSection))}px`,
+            ease: "none",
+            scrollTrigger: {
+              trigger: landingSection,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+              invalidateOnRefresh: true
+            }
+          })
         }
-      })
-    }
-     
-    }
-     gsap.utils.toArray<HTMLElement>('.text-an').forEach((el) => {
+      }
+
+      // About text reveal
+      gsap.utils.toArray<HTMLElement>('.text-reveal').forEach((el) => {
         gsap.from(el, {
-          y: 100,
+          y: 60,
           opacity: 0,
-          duration: 1,
-          ease: 'back.out(1.7)',
+          duration: 1.2,
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 90%',
+            start: 'top 85%',
             once: true,
-            refreshPriority: 1
-           
           }
         })
       })
     })
-  
+
     return () => ctx.revert()
-  }, [])
-  
+  }, [isLoading])
+
+  // Helper to split text into chars for animation
+  const SplitText = ({ children, className }: { children: string, className?: string }) => {
+    return (
+      <span className={`inline-block overflow-hidden ${className}`}>
+        {children.split('').map((char, i) => (
+          <span key={i} className="char inline-block" style={{ willChange: 'transform' }}>
+            {char === ' ' ? '\u00A0' : char}
+          </span>
+        ))}
+      </span>
+    )
+  }
 
   return (
     <>
-      
-      
-       {/* Your existing hero section with parallax */}
-      <section className="min-h-screen h-screen relative flex md:items-end md:justify-between overflow-hidden">
-        {/* Background */}
-        <div 
+      {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
+
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-primary text-background">
+        {/* Background Image */}
+        <div
           ref={heroBgRef}
-          className="absolute inset-0 w-full h-[120%] bg" // h-[120%] makes it larger
+          className="absolute inset-0 w-full h-[120%] opacity-70 mix-blend-overlay"
           style={{
-            backgroundImage: "url('/footer.png')",
+            backgroundImage: "url('/blackbg.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            top: '-10%', // Start slightly above to account for movement
+            top: '-10%',
           }}
         />
-        
-        <div className='flex flex-col items:center md:items-left justify-between h-screen w-full pt-[80px] px-[10px] md:pt-[100px] md:px-[36px]'>
-           <h1 className='z-10 md:pb-[100px] top-0'>
-              <div className='md:max-h-[145px]'>
-                  <div className={`hero-text ${neueMontrealMedium.className}  text-[57px] md:text-[115px] text-[white]`}>
-                      Greek Creative
-                  </div>
+
+        {/* Content */}
+        <div className='relative z-10 flex flex-col justify-between h-full w-full pt-32 px-4 md:px-10 pb-10'>
+          <h1 ref={titleRef} className='flex flex-col font-medium leading-[0.9] tracking-tight'>
+            <div className="overflow-hidden">
+              <SplitText className="text-[13vw] md:text-[8vw] uppercase">Greek Creative</SplitText>
+            </div>
+            <div className="overflow-hidden">
+              <SplitText className="text-[13vw] md:text-[8vw] uppercase">Front-End Developer</SplitText>
+            </div>
+          </h1>
+
+          <div className='flex flex-col md:flex-row md:items-end justify-between gap-8 mt-20'>
+            <div className="hero-meta text-xl md:text-2xl font-normal">
+              <p>Folio:05</p>
+            </div>
+
+            <div className='grid grid-cols-2 md:flex md:gap-16 text-sm md:text-lg opacity-80'>
+              <div className='hero-meta'>
+                <p className="uppercase text-xs opacity-60 mb-1">Availability</p>
+                <p>March 2025</p>
               </div>
-              <div className='md:max-h-[145px]'>
-                <div className={`hero-text ${neueMontrealMedium.className} text-[57px] md:text-[115px] text-[white]`}>
-                  Front-End Developer
-                </div>
+              <div className='hero-meta'>
+                <p className="uppercase text-xs opacity-60 mb-1">Contact</p>
+                <p>alexandrospalikrousis@gmail.com</p>
               </div>
-           </h1>
-           <div className='z-10 md:flex md:flex-row items-center justify-between py-[64px]'>
-             <div className={`hero-text ${neueMontrealMedium.className}  mb-4 md:mb-0 text-3xl md:text-5xl font-normal text-white`}>
-                  <p>
-                  Folio:05
-                  </p>
-             </div>
-             <div className={`hero-text ${neueMontrealMedium.className}  grid grid-cols-2 gap-y-2 md:flex  md:items-center md:justify-between md:gap-8 text-white`}>
-                 <div className='text-xs md:text-xl'>
-                     <p>
-                     Availability:<br/>
-                     March 2025
-                     </p>
-                 </div>
-                 <div className='hero-text text-xs md:text-xl'>
-                     <p>Contact:<br/>
-                     alexandrospalikrousis@gmail.com
-                     </p>
-                 </div>
-                 <div className='hero-text text-xs md:text-xl'>
-                     <p>
-                     Current location:<br/>
-                     Thessaloniki, Greece
-                     </p>
-                 </div>
-                 <div className='text-xs md:text-xl'>
-                    <p>
-                    Copyright:<br/>
-                    ©2025 Alexandros Palikrousis
-                    </p>
-                 </div>
-             </div>
-           </div>
+              <div className='hero-meta'>
+                <p className="uppercase text-xs opacity-60 mb-1">Location</p>
+                <p>Thessaloniki, Greece</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-      
-      {/* Black sections that appear when scrolling */}
-      <div className="relative min-h-screen w-full section overflow-hidden">
-      <div
-       ref={landingRef}
-        className="absolute inset-0 w-full h-full bg"
-      style={{
-        backgroundImage: "url('/LandingPicture.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-       
-      }}>
-        <section className={`min-h-screen flex items-left justify-start px-[10px] pt-[40px] md:p-8`}>
-          <div className="md:mt-[50px]">
-            <h2 className={`${neueMontrealMedium.className} text-an text-5xl md:text-[115px] mb-16 white-space-nowrap line-height-[1.5]`}
-            style={{color: "white"}}>Hello I am Alexander</h2>
-            
-            <p className="text-an text-xl md:text-4xl max-w-2xl"
-            style={{color: "white"}}>
-            Shopify sorcerer by day, full stack student by night.
-            I transform business ideas 
-            into functioning websites (and occasionally functioning 
-            websites into mysterious error messages).
-            My superpowers 
-            include turning coffee into code, making divs do what 
-            they&apos;re told. Currently learning that 
-            &apos;full stack&apos; means being confused in multiple languages 
-            simultaneously&apos;.
+
+      {/* About Section */}
+      <div className="relative min-h-screen w-full overflow-hidden bg-zinc-900 text-white">
+        <div
+          ref={landingRef}
+          className="absolute inset-0 w-full h-full opacity-60"
+          style={{
+            backgroundImage: "url('/test.jpg')",
+            backgroundSize: "100% 100%",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+
+        <section className="relative z-10 min-h-screen flex items-center px-4 md:px-10 py-20">
+          <div className="max-w-4xl">
+            <h2 className="text-reveal text-5xl md:text-8xl font-medium mb-12 leading-[0.9] tracking-tight uppercase">
+              Hello I am Alexander
+            </h2>
+
+            <p className="text-reveal text-xl md:text-3xl leading-relaxed font-light text-gray-200 text-balance">
+              Shopify sorcerer by day, full stack student by night.
+              I transform business ideas into functioning websites (and occasionally functioning websites into mysterious error messages).
+              My superpowers include turning coffee into code and making divs do what they're told.
             </p>
           </div>
         </section>
+      </div>
 
-        
-        </div>
-        </div>
-        <section id="selected-works" className="min-h-screen flex px-[10px] py-[50px] md:p-8 md:pt-[100px]"
+      {/* Selected Works */}
+      <section id="selected-works" className="min-h-screen px-4 py-20 md:px-10 md:py-32 bg-[#0B1014]"
         style={{
-          backgroundColor: "rgb(11,16,20)",
+          backgroundImage: "url('/blackbg.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          top: '-10%',
+
         }}>
-           <SelectedWorks />
-        </section>
-        
-      
-        
+        <SelectedWorks />
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="min-h-screen px-4 py-20 md:px-10 md:py-32 bg-background text-foreground flex items-center justify-center">
+        <ContactForm />
+      </section>
     </>
   );
 }

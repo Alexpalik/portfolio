@@ -3,103 +3,112 @@
 import { useParams } from 'next/navigation'
 import Image from 'next/image'
 import { projects } from '@/lib/projects'
-import { useLayoutEffect } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import Link from 'next/link'
-
-
-
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 export default function ProjectPage() {
     const { slug } = useParams()
     const projectSlug = decodeURIComponent(slug as string)
     const project = projects[projectSlug]
+    const containerRef = useRef<HTMLDivElement>(null)
 
     useLayoutEffect(() => {
-        const els = gsap.utils.toArray<HTMLElement>('.proj-an')
-        els.forEach(el => (el.style.willChange = 'transform, opacity'))
-        
         const ctx = gsap.context(() => {
-          gsap.from(els, {
-            y: 60,
-            opacity: 0,
-            duration: 0.55,
-            ease: 'slow.out(1.7)',
-            stagger: 0.12,
-            force3D: true,
-            onComplete: () => els.forEach(el => (el.style.willChange = 'auto')),
-          })
-        })
-    
+            // Animate text elements
+            gsap.from('.proj-an', {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out',
+                stagger: 0.1,
+                delay: 0.2
+            })
+
+            // Animate image
+            gsap.from('.proj-img', {
+                scale: 0.9,
+                opacity: 0,
+                duration: 1.2,
+                ease: 'power3.out',
+                delay: 0.4
+            })
+        }, containerRef)
+
         return () => ctx.revert()
-      }, [])
+    }, [])
+
+    if (!project) return null
+
+    const projectKeys = Object.keys(projects)
+    const currentIndex = projectKeys.indexOf(projectSlug)
+    const prevIndex = currentIndex > 0 ? currentIndex - 1 : projectKeys.length - 1
+    const nextIndex = currentIndex < projectKeys.length - 1 ? currentIndex + 1 : 0
+    const prevSlug = projectKeys[prevIndex]
+    const nextSlug = projectKeys[nextIndex]
+
     return (
-        <>
-            <div className="min-h-[100vh] h-full flex justify-between  pt-[80px] px-[10px] md:pt-[100px] md:px-[36px] md:flex-row flex-col gap-4"
-             style={{backgroundColor: project.backgroundColor}}
-            >
-               
-               <div className={`flex flex-col md:w-1/2 justify-between items-left max-h-[500px]`}
-               style={{color: project.textColor}}
-               >
-                    <h3 className={`font-neue proj-an text-3xl font-medium mb-[10px] xl:text-[120px] align-left md:whitespace-nowrap`}>{project.title}</h3> 
-                    <p className="proj-an text-[16px] md:text-2xl font-medium align-left max-w-sm">
+        <div
+            ref={containerRef}
+            className="min-h-screen w-full flex flex-col md:flex-row pt-24 md:pt-0"
+            style={{ backgroundColor: project.backgroundColor, color: project.textColor }}
+        >
+            {/* Left Content */}
+            <div className="w-full md:w-1/2 flex flex-col justify-center px-6 md:px-16 py-10 md:py-20 z-10">
+                <div className="max-w-xl">
+                    <Link href="/#selected-works" className="proj-an inline-flex items-center gap-2 mb-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <ArrowLeft size={20} />
+                        <span className="text-sm uppercase tracking-widest">Back to Works</span>
+                    </Link>
+
+                    <h1 className="proj-an text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.9] mb-8 tracking-tight">
+                        {project.title}
+                    </h1>
+
+                    <p className="proj-an text-xl md:text-2xl font-medium opacity-90 mb-8 leading-relaxed">
                         {project.shortDescription}
                     </p>
-                    <p className="proj-an text-[16px] md:text-[16px] font-medium align-left max-w-xl">
+
+                    <p className="proj-an text-base md:text-lg opacity-80 leading-relaxed max-w-lg">
                         {project.fullDescription}
                     </p>
-               </div>
-               <div className="relative w-full md:w-1/2">
-                {/* Image */}
-                <div className="proj-an relative md:absolute md:right-0 md:bottom-0 bottom-[10px]">
-                    <Image 
-                    src={project.imageSrc} 
-                    alt={project.title} 
-                    width={957} 
-                    height={733} 
-                    className="object-cover w-full h-auto max-h-[200px] md:max-h-[100%] md:w-auto xl:w-[800px] xl:h-[533px] 2xl:w-[1000px] 2xl:h-[667px]"
-                    />
-                    
-                    {/* Navigation boxes - positioned inside image container */}
-                    <div className="absolute top-[-60px] right-4 z-10 flex gap-2">
-                    {(() => {
-                        const projectKeys = Object.keys(projects)
-                        const currentIndex = projectKeys.indexOf(projectSlug)
-                        const prevIndex = currentIndex > 0 ? currentIndex - 1 : projectKeys.length - 1
-                        const nextIndex = currentIndex < projectKeys.length - 1 ? currentIndex + 1 : 0
-                        
-                        return (
-                        <>
-                            <Link 
-                            href={`/projects/${projectKeys[prevIndex]}`}
-                            className="w-10 h-10 border-2 flex items-center justify-center hover:bg-current/10 transition-colors"
-                            style={{ borderColor: project.textColor, color: project.textColor }}
-                            >
-                            {String(prevIndex + 1).padStart(2, '0')}
-                            </Link>
-                            <div 
-                            className="w-10 h-10 border-2 flex items-center justify-center bg-current/10"
-                            style={{ borderColor: project.textColor, color: project.textColor }}
-                            >
-                            {String(currentIndex + 1).padStart(2, '0')}
-                            </div>
-                            <Link 
-                            href={`/projects/${projectKeys[nextIndex]}`}
-                            className="w-10 h-10 border-2 flex items-center justify-center hover:bg-current/10 transition-colors"
-                            style={{ borderColor: project.textColor, color: project.textColor }}
-                            >
-                            {String(nextIndex + 1).padStart(2, '0')}
-                            </Link>
-                        </>
-                        )
-                    })()}
+
+                    {/* Navigation */}
+                    <div className="proj-an flex items-center gap-4 mt-16">
+                        <Link
+                            href={`/projects/${prevSlug}`}
+                            className="w-12 h-12 border border-current rounded-full flex items-center justify-center hover:bg-black/10 transition-colors"
+                            aria-label="Previous Project"
+                        >
+                            <ArrowLeft size={20} />
+                        </Link>
+                        <span className="font-medium tabular-nums text-lg">
+                            {String(currentIndex + 1).padStart(2, '0')} / {String(projectKeys.length).padStart(2, '0')}
+                        </span>
+                        <Link
+                            href={`/projects/${nextSlug}`}
+                            className="w-12 h-12 border border-current rounded-full flex items-center justify-center hover:bg-black/10 transition-colors"
+                            aria-label="Next Project"
+                        >
+                            <ArrowRight size={20} />
+                        </Link>
                     </div>
                 </div>
             </div>
- 
-               
+
+            {/* Right Image */}
+            <div className="w-full md:w-1/2 h-[40vh] md:h-screen relative flex items-center justify-center">
+                <div className="proj-img w-full h-full md:h-[60%] md:w-[80%] relative shadow-2xl">
+                    <Image
+                        src={project.imageSrc}
+                        alt={project.title}
+                        fill
+                        className="object-cover object-center"
+                        priority
+                    />
+                </div>
             </div>
-        </>
+        </div>
     )
 }

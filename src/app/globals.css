@@ -1,21 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --background: rgb(236, 231, 225);
-  --foreground: #171717;
+  /* Earthy/Organic Palette */
+  --background: 236 231 225; /* Bone/Beige */
+  --foreground: 23 23 23;    /* Soft Black */
+  --primary: 84 98 90;       /* Sage Green */
+  --secondary: 210 205 200;  /* Darker Beige for borders/accents */
+  --accent: 84 98 90;        /* Using Sage as accent for now */
+  
+  --font-neue: 'Neue Montreal', sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: 'Neue Montreal', sans-serif;  /* This is the key change */
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-background: rgb(var(--background));
+  --color-foreground: rgb(var(--foreground));
+  --color-primary: rgb(var(--primary));
+  --color-secondary: rgb(var(--secondary));
+  --color-accent: rgb(var(--accent));
+  
+  --font-neue: var(--font-neue);
 }
 
 @font-face {
@@ -23,6 +26,15 @@
   src: url('/fonts/NeueMontreal-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('/fonts/NeueMontreal-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -30,21 +42,21 @@
   src: url('/fonts/NeueMontreal-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 html, body {
-  background: rgb(84, 98, 90); /* Same as your page background */
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
+  font-family: var(--font-neue);
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  overscroll-behavior: none; /* This prevents the bounce/overscroll */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Also add this to prevent overscroll on the main container */
-main {
-  overscroll-behavior: none;
-}
-
+/* Smooth Scrolling (Lenis) */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -66,10 +78,7 @@ html.lenis body {
   pointer-events: none;
 }
 
-
-* {
-  box-sizing: border-box;
+/* Utilities */
+.text-balance {
+  text-wrap: balance;
 }
-.app-body { background-color: rgb(236, 231, 225); }
-
-.font-neue { font-family: var(--font-neue-montreal); }
