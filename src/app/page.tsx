@@ -11,6 +11,7 @@ import LoadingScreen from '@/components/LoadingScreen'
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [showContent, setShowContent] = useState(false)
+  const [animationRan, setAnimationRan] = useState(false)
   const heroBgRef = useRef<HTMLDivElement>(null)
   const landingRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -49,37 +50,35 @@ export default function Home() {
             ease: "power4.out",
           }
         )
+        setAnimationRan(true)
       }
     })
   }
 
   useGSAP(() => {
-    if (isLoading || !showContent) return
+    if (isLoading || !showContent || animationRan) return
 
     // Only run this animation if we skipped the loader (returning visitor)
-    const hasVisited = sessionStorage.getItem('hasVisited')
-    if (hasVisited) {
-      const titleElement = titleRef.current
-      if (titleElement) {
-        const chars = titleElement.querySelectorAll('.char')
-        gsap.killTweensOf(chars)
+    const titleElement = titleRef.current
+    if (titleElement) {
+      const chars = titleElement.querySelectorAll('.char')
+      gsap.killTweensOf(chars)
 
-        gsap.fromTo(chars,
-          {
-            y: 100,
-            opacity: 0
-          },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            stagger: 0.05,
-            ease: "power4.out",
-          }
-        )
-      }
+      gsap.fromTo(chars,
+        {
+          y: 100,
+          opacity: 0
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.05,
+          ease: "power4.out",
+        }
+      )
     }
-  }, [isLoading, showContent])
+  }, [isLoading, showContent, animationRan])
 
   useLayoutEffect(() => {
     if (isLoading) return
@@ -182,41 +181,60 @@ export default function Home() {
         {/* Background Image */}
         <div
           ref={heroBgRef}
-          className="absolute inset-0 w-full h-[120%] opacity-70 mix-blend-overlay"
+          className="absolute inset-0 w-full md:h-full opacity-70 mix-blend-overlay"
           style={{
             backgroundImage: "url('/blackbg.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
-            top: '-10%',
+
           }}
         />
 
         {/* Content */}
-        <div className='relative z-10 flex flex-col justify-between h-full w-full pt-32 px-4 md:px-10 pb-10'>
-          <h1 ref={titleRef} className='flex flex-col font-medium leading-[0.9] tracking-tight'>
-            <div className="overflow-hidden">
-              <SplitText className="text-[13vw] md:text-[8vw] uppercase">Greek Creative</SplitText>
-            </div>
-            <div className="overflow-hidden">
-              <SplitText className="text-[13vw] md:text-[8vw] uppercase">Front-End Developer</SplitText>
-            </div>
-          </h1>
+        <div className='relative z-10 flex flex-col justify-between h-[700px] md:h-full w-full pt-32 px-4 md:px-10 pb-10'>
+          <div ref={titleRef}>
+            {/* Mobile Title - 4 lines */}
+            <h1 className='md:hidden flex flex-col font-medium leading-[0.9] tracking-tight'>
+              <div className="overflow-hidden">
+                <SplitText className="text-[13vw] uppercase">Greek</SplitText>
+              </div>
+              <div className="overflow-hidden">
+                <SplitText className="text-[13vw] uppercase">Creative</SplitText>
+              </div>
+              <div className="overflow-hidden">
+                <SplitText className="text-[13vw] uppercase">Front-End</SplitText>
+              </div>
+              <div className="overflow-hidden">
+                <SplitText className="text-[13vw] uppercase">Developer</SplitText>
+              </div>
+            </h1>
+
+            {/* Desktop Title - 2 lines */}
+            <h1 className='hidden md:flex flex-col font-medium leading-[0.9] tracking-tight'>
+              <div className="overflow-hidden">
+                <SplitText className="text-[8vw] uppercase">Greek Creative</SplitText>
+              </div>
+              <div className="overflow-hidden">
+                <SplitText className="text-[8vw] uppercase">Front-End Developer</SplitText>
+              </div>
+            </h1>
+          </div>
 
           <div className='flex flex-col md:flex-row md:items-end justify-between gap-8 mt-20'>
             <div className="hero-meta text-xl md:text-2xl font-normal">
               <p>Folio:05</p>
             </div>
 
-            <div className='grid grid-cols-2 md:flex md:gap-16 text-sm md:text-lg opacity-80'>
-              <div className='hero-meta'>
+            <div className='flex flex-col md:flex md:flex-row md:gap-16 text-sm md:text-lg opacity-80'>
+              <div className='hero-meta mb-4'>
                 <p className="uppercase text-xs opacity-60 mb-1">Availability</p>
                 <p>March 2025</p>
               </div>
-              <div className='hero-meta'>
+              <div className='hero-meta mb-4'>
                 <p className="uppercase text-xs opacity-60 mb-1">Contact</p>
                 <p>alexandrospalikrousis@gmail.com</p>
               </div>
-              <div className='hero-meta'>
+              <div className='hero-meta mb-4'>
                 <p className="uppercase text-xs opacity-60 mb-1">Location</p>
                 <p>Thessaloniki, Greece</p>
               </div>
@@ -254,21 +272,14 @@ export default function Home() {
       </div>
 
       {/* Selected Works */}
-      <section id="selected-works" className="min-h-screen px-4 py-20 md:px-10 md:py-32 bg-[#0B1014]"
-        style={{
-          backgroundImage: "url('/blackbg.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          top: '-10%',
-
-        }}>
+      <section id="selected-works" className="min-h-screen px-4 py-20 md:px-10 md:py-32 bg-[#0B1014]">
         <SelectedWorks />
-      </section>
+      </section >
 
       {/* Contact Section */}
-      <section id="contact" className="min-h-screen px-4 py-20 md:px-10 md:py-32 bg-background text-foreground flex items-center justify-center">
+      < section id="contact" className="min-h-screen px-4 py-20 md:px-10 md:py-32 bg-background text-foreground flex items-center justify-center" >
         <ContactForm />
-      </section>
+      </section >
     </>
   );
 }
